@@ -3,13 +3,44 @@ import {
   enableDebugTools,
   disableDebugTools
 } from '@angular/platform-browser';
+
 import {
   ApplicationRef,
   enableProdMode
 } from '@angular/core';
+
+import { DataResolver } from './_resolvers/app.resolver';
+
+import { BackendHttp } from './_services/backend.http';
+import { Http } from '@angular/http';
+
+// Mock backend
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BaseRequestOptions } from '@angular/http';
+import { fakeBackendProvider } from './_helpers/fake-backend'
+
+import {
+  UserStateService,
+  ConfigService,
+  AppStateService,
+  AuthenticationService
+} from './_services';
+
 // Environment Providers
 let PROVIDERS: any[] = [
-  // common env directives
+  AppStateService,
+  UserStateService,
+  ConfigService,
+  AuthenticationService
+  // other common env directives
+];
+
+// an array of services to resolve routes with data
+let RESOLVER_PROVIDERS = [
+  DataResolver,
+  MockBackend,
+  BaseRequestOptions,
+  // other common data resolvers
 ];
 
 // Angular debug tools in the dev console
@@ -28,8 +59,15 @@ if ('production' === ENV) {
 
   PROVIDERS = [
     ...PROVIDERS,
+    { provide: BackendHttp, useExisting: Http },
     // custom providers in production
   ];
+
+  RESOLVER_PROVIDERS = [
+    ...RESOLVER_PROVIDERS,
+    // custom resolver providers in production
+  ];
+
 
 } else {
 
@@ -47,9 +85,14 @@ if ('production' === ENV) {
   // Development
   PROVIDERS = [
     ...PROVIDERS,
+    { provide: BackendHttp, useExisting: Http },
     // custom providers in development
   ];
 
+  RESOLVER_PROVIDERS = [
+    ...RESOLVER_PROVIDERS,
+    // custom resolver providers in development
+  ];
 }
 
 export const decorateModuleRef = _decorateModuleRef;
@@ -57,3 +100,7 @@ export const decorateModuleRef = _decorateModuleRef;
 export const ENV_PROVIDERS = [
   ...PROVIDERS
 ];
+
+export const APP_RESOLVER_PROVIDERS = [
+  ...RESOLVER_PROVIDERS
+]

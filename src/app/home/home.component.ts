@@ -3,7 +3,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { AppState } from '../app.service';
+import { AppStateService } from '../_services/app.state.service';
 import { Title } from './title';
 import { XLargeDirective } from './x-large';
 
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   public localState = { value: '' };
   // TypeScript public modifiers
   constructor(
-    public appState: AppState,
+    public appState: AppStateService,
     public title: Title
   ) {}
 

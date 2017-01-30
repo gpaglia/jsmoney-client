@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "es6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -14,21 +14,32 @@
       "dom",
       "es6"
     ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "types": [
       "hammerjs",
       "jasmine",
       "node",
       "source-map",
       "uglify-js",
-      "webpack"
+      "webpack",
+      "jsmoney-server-api"
     ]
   },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.d.ts",
+    "./src/**/*.d.tsx"
+  ],
   "exclude": [
     "node_modules",
+    "!node_modules/@types",
     "dist"
+  ],
+  "filesGlob": [
+    "./src/**/*.ts",
+    "./src/**/*.d.ts",
+    "./src/**/*.d.tsx",
+    "./node_modules/@types/**",
+    "!./node_modules/**"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,

@@ -9,8 +9,3 @@ export class DataResolver implements Resolve<any> {
     return Observable.of({ res: 'I am data'});
   }
 }
-
-// an array of services to resolve routes with data
-export const APP_RESOLVER_PROVIDERS = [
-  DataResolver
-];
