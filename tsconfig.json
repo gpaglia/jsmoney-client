@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "CommonJS",
+    "module": "commonjs",
     "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "outDir": "dist",
     "sourceMap": true,
     "noEmit": true,
     "noEmitHelpers": true,
@@ -31,7 +32,6 @@
   ],
   "exclude": [
     "node_modules",
-    "!node_modules/@types",
     "dist"
   ],
   "filesGlob": [

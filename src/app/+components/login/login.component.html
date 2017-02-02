@@ -1,0 +1,47 @@
+﻿<!--
+<div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+            <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Login</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <a [routerLink]="['/register']" class="btn btn-link">Register</a>
+        </div>
+    </form>
+</div>
+-->
+
+<div class="md-content" fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="column" fxFlexAlign="start center" fxFlex fxFlex.md="50" fxFlex.lg="50" fxFlex.gt-lg="33" class="md-whiteframe-z2">
+    <md-toolbar fxLayout="row" fxLayoutAlign="center center" class="md-primary" color="primary">
+      <span fxFlexAlign="center">Please log in to JSMoney</span>
+    </md-toolbar>
+
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="md-body-2">Log in with your username</p>
+      </div>
+      <form fxLayout="column" fxLayoutALign="center center" [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()">
+ 
+        <md-input formControlName="username" placeholder="Username"></md-input>
+        <md-input formControlName="password" type="password" placeholder="Password"></md-input>
+        <button md-button class="md-primary" type="submit" aria-label="login">Log In</button>
+        
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <a md-button [routerLink]="['/recover']">Forgot password?</a>  
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

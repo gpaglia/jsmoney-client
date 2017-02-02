@@ -2,7 +2,7 @@
 import { Headers, RequestOptions, Response } from '@angular/http';
 import { BackendHttp } from './backend.http';
 import { ConfigService } from './config.service';
-import { UserStateService } from './user.state.service';
+import { AppStateService } from './app.state.service';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -14,11 +14,11 @@ export class UserService {
     constructor(
       private http: BackendHttp,
       private config: ConfigService,
-      private us: UserStateService
+      private appState: AppStateService
     ) { }
 
     getAll(): Observable<IUserObject[]> {
-      return this.http.get(this.config.api('/users'), this.us.authHeaders())
+      return this.http.get(this.config.api('/users'), this.appState.makeAuthHeaders())
         .map((response: Response) => {
           let body = response.json().body;
           if (body.data && body.data.users) {
@@ -31,7 +31,7 @@ export class UserService {
     }
 
     getById(id: number): Observable<IUserObject> {
-      return this.http.get(this.config.api('/users/' + id), this.us.authHeaders())
+      return this.http.get(this.config.api('/users/' + id), this.appState.makeAuthHeaders())
         .map((response: Response) => {
           let body = response.json().body;
           if (body.data && body.data.user) {

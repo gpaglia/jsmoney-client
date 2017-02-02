@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   NgModule,
@@ -16,6 +17,8 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
+import 'hammerjs';
+
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -24,10 +27,13 @@ import { AppStateService, InternalStateType } from './_services/app.state.servic
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
+import { HomeComponent } from './+components/home';
+import { AboutComponent } from './+components/about';
+import { LoginComponent } from './+components/login';
+import { RegisterComponent } from './+components/register';
+import { NoContentComponent } from './+components/no-content';
+import { ProfileComponent } from './+components/profile';
+import { XLargeDirective } from './_directives/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -47,14 +53,19 @@ type StoreType = {
     AppComponent,
     AboutComponent,
     HomeComponent,
+    LoginComponent,
+    RegisterComponent,
     NoContentComponent,
+    ProfileComponent,
     XLargeDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     MaterialModule.forRoot(),
+    FlexLayoutModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
@@ -75,7 +86,7 @@ export class AppModule {
     }
     console.log('HMR store', JSON.stringify(store, null, 2));
     // set state
-    this.appState._state = store.state;
+    this.appState.resetAppState(store.state);
     // set input values
     if ('restoreInputValues' in store) {
       let restoreInputValues = store.restoreInputValues;
@@ -90,7 +101,7 @@ export class AppModule {
   public hmrOnDestroy(store: StoreType) {
     const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
     // save state
-    const state = this.appState._state;
+    const state = this.appState.getAppState();
     store.state = state;
     // recreate root elements
     store.disposeOldHosts = createNewHosts(cmpLocation);

@@ -1,0 +1,57 @@
+<div fxLayout="column">
+
+    <table fxLayout="column" class="table table-striped" [rtList]="getDatasets" #datasets="rtList">
+        <thead fxLayout="column">
+            <tr fxLayout="row" fxLayoutAlign="start baseline">
+                <th fxFlex="15" fxFlexAlign="start" style="text-align:start;">Name</th>
+                <th fxFlex="30" fxFlexAlign="start"style="text-align:start;">Description</th>
+                <th fxFlex="5" fxFlexAlign="start"style="text-align:start;">Currency</th>
+                <th fxFlex="15" fxFlexAlign="start"style="text-align:start;">Add. Currencies</th>
+                <th fxFlex="35" fxFlexAlign="start"style="text-align:start;">Actions</th>
+            </tr>
+        </thead>
+        <tbody fxLayoyt="column">
+            <tr fxLayout="row" fxLayoutAlign="start baseline" *ngFor="let dataset of datasets.items">
+                <td fxFlex="15" fxFlexAlign="start"style="text-align:start;">{{ dataset.name }}</td>
+                <td fxFlex="30" fxFlexAlign="start"style="text-align:start;">{{ dataset.description }}</td>
+                <td fxFlex="5" fxFlexAlign="start"style="text-align:start;">{{ dataset.currency}}</td>
+                <td fxFlex="15" fxFlexAlign="start"style="text-align:start;">{{ dataset.additionalCurrencies}}</td>
+                <td fxFlex="35" fxFlexAlign="start"style="text-align:start;">
+                    <button md-button class="module-form-action-button" (click)="selectDataset(dataset)">Select</button>
+                    <button md-button class="module-form-action-button" (click)="renameDataset(dataset)">Rename</button>
+                    <button md-button class="module-form-action-button" (click)="editDataset(dataset)">Add Currency</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!--
+    <div fxLayout="row" class="dataset-list-header">
+        <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> Name </div>
+        <div fxLayout="row" fxFlex="30" fxLayoutAlign="left"> Description </div>
+        <div fxLayout="row" fxFlex="5" fxLayoutAlign="left"> Currency </div>
+        <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> Additional Currencies </div>
+        <div fxLayout="row" fxFlex="35" fxLayoutAlign="left"> Actions </div>
+
+
+    </div>
+    <template ngFor let-dataset [ngForOf]="datasets">
+
+        <div fxLayout="row" class="dataset-list-data">
+            <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> {{ dataset.name }} </div>
+            <div fxLayout="row" fxFlex="30" fxLayoutAlign="left"> {{ dataset.description }} </div>
+            <div fxLayout="row" fxFlex="5" fxLayoutAlign="left"> {{ dataset.currency }} </div>
+            <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> {{ dataset.additionalCurrencies | json }} </div>
+            <div fxLayout="row" fxFlex fxLayoutAlign="left">
+                <button md-button class="module-form-action-button" (click)="selectDataset(dataset)">Select</button>
+                <button md-button class="module-form-action-button" (click)="renameDataset(dataset)">Rename</button>
+                <button md-button class="module-form-action-button" (click)="editDataset(dataset)">Add Currency</button>
+            </div>
+        </div>
+    </template>
+    -->
+</div>
+<!--
+<md-list>
+    <md-list-item *ngFor="let dataset of datasets">{{ dataset.name }}</md-list-item>
+</md-list>
+-->

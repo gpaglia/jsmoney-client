@@ -31,4 +31,8 @@ export class ConfigService {
     return this.getApiPrefix() + segment;
   }
 
+  isFakeBackend(): boolean {
+    return !!this.configObject['fake-backend'];
+  }
+
 }

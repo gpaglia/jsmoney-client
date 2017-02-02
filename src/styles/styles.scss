@@ -11,16 +11,26 @@ $app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
   flex: 1 1 auto;
 }
 
-body {
-  background-color: #f8f8f8;
-  font-family: 'Muli', sans-serif;
-  padding: 0;
-  margin: 0;
-}
+
 
 /* this file will be extracted to main dist folder and is imported in index.html */
 /* This file is for setting global styles  */
 @import 'variables';
+
+
+
+
+body {
+  background-color: #f8f8f8;
+  /* font-family: 'Muli', sans-serif; */
+  padding: 0;
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+a.active {
+  background-color: gray;
+}
 
 md-toolbar, nav {
   margin-top: 16px;
@@ -37,3 +47,38 @@ nav a, md-toolbar a[md-button] {
   text-decoration: none;
   border-radius: 4px;
 }
+
+.module-sidenav {
+  background-color: lightskyblue;
+  color: darkblue;
+  height: 100%;
+}
+
+.module-container {
+  background-color: lightgray;
+  color: darkslategrey;
+  height: 100%;
+}
+
+.module-main-content {
+  background-color: lightskyblue;
+  color: darkblue;
+  height: 100%;
+}
+
+.main-container {
+  background-color: green;
+}
+
+.main-app-container {
+  height: 100%
+}
+
+button.module-form-action-button {
+  margin: 0;
+  padding: 4px 0px 4px 0px;
+  border-radius: 4px;
+  min-width: 30px;
+  background-color: darkslategray;
+}
+

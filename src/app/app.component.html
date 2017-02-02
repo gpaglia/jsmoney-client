@@ -17,27 +17,41 @@
   </a>
 </nav>
 -->
-<md-toolbar color="primary">
-  <a routerLink="/" class="toolbar-title">JSMoney</a>
-  <div [hidden]="userState.id">
-    <a md-button [routerLink]="['/login']" >Login</a>
-    <a md-button [routerLink]="['/register']">Sign up</a>
+<div fxFlex="100%" fxLayout="column" fxLayoutAlignment="start stretch" class="main-app-container">
+  <div class="main-app-toolbar-container">
+    <md-toolbar class="main-app-toolbar" fxLayout="row" fxLayoutAlign="center center" color="primary">
+      <div>
+        <a routerLink="/" class="main-app-toolbar-title">JSMoney</a>
+      </div>
+      <md-toolbar-row class="main-app-toolbar-buttonsrow" fxLayout="row" fxLayoutAlign="center center">
+        <div [hidden]="userState.id">
+          <a md-button [routerLink]="['/login']">Login</a>
+          <a md-button [routerLink]="['/register']">Sign up</a>
+        </div>
+        <div [hidden]="!userState.id">
+          <a md-button [routerLink]="['./profile']" routerLinkActive="active">Profile</a>
+          <a md-button [routerLink]="['./datasets']" routerLinkActive="active">Datasets</a>
+          <a md-button [routerLink]="['./accounts']" routerLinkActive="active">Accounts</a>
+          <span fxFlex></span>
+          <button md-button (click)="logout()">Logout</button>
+        </div>
+      </md-toolbar-row>
+    </md-toolbar>
   </div>
-  <div [hidden]="!userState.id">
-    <a md-button [routerLink]="['./profile']" routerLinkActive="active">Profile</a>
-    <a md-button [routerLink]="['./datasets']" routerLinkActive="active">Datasets</a>
-    <a md-button [routerLink]="['./accounts']" routerLinkActive="active">Accounts</a>
 
-    <button md-button>Logout</button>
+  <main fxFlex class="main-container">
+    <router-outlet></router-outlet>
+  </main>
+
+  <div class="main-footer">
+    <pre class="app-state">this.appState.state = {{ appState.getAppState() | json }}</pre>
+    <pre class="app-state">this.userState = {{ userState.id }}, {{ userState.username }}, {{ userState.role }}</pre>
   </div>
-</md-toolbar>
+</div>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
 
-<pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
 
+<!--
 <footer>
   <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
   <div>
@@ -46,3 +60,4 @@
     </a>
   </div>
 </footer>
+-->

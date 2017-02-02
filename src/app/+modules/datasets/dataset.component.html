@@ -1,0 +1,21 @@
+ <md-sidenav-container fxFlex class="module-container">
+    <md-sidenav fxFlexOrder="1" class="module-sidenav" mode="side" opened="true">
+        <md-toolbar class="sidenav-toolbar">
+            Actions
+        </md-toolbar>
+        <md-nav-list>
+            <a md-list-item [routerLink]="['list']">List</a>
+            <a md-list-item [routerLink]="['new']">New</a>
+            <a md-list-item [routerLink]="['import']">Import</a>
+            <a md-list-item [routerLink]="['export']">Export</a>
+        </md-nav-list>
+    </md-sidenav>
+    <div class="module-main-content">
+       <md-toolbar class="module-toolbar">
+            Datasets
+        </md-toolbar>
+        <div>
+            <router-outlet></router-outlet> 
+        </div>
+    </div>
+</md-sidenav-container>

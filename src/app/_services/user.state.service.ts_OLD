@@ -41,6 +41,7 @@ export class UserStateService {
   setState(nuser: IUserObject, ntoken: string): void {
     let newState: UserStateType = {user: nuser, token: ntoken};
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
+    console.log('User state changing ... ');
     this.subject.next(nuser);
   }
 

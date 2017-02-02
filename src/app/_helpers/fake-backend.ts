@@ -55,11 +55,14 @@ export let fakeBackendProvider = {
             // wrap in timeout to simulate server api call
             setTimeout(() => {
 
+                console.log('Fake backend, got request ' + JSON.stringify(connection.request, null, 4));
                 // authenticate
-                if (connection.request.url.endsWith('/api/authenticate') && connection.request.method === RequestMethod.Post) {
+                if (connection.request.url.endsWith('/authenticate') && connection.request.method === RequestMethod.Post) {
                     // get parameters from post request
                     let params: ICredentialsObject = JSON.parse(connection.request.getBody());
 
+                    console.log('Fake backend authenticate called, credentials = ' + JSON.stringify(params, null, 4))
+                    
                     // find if any user matches login credentials
                     let filteredUsers: IUserAndPasswordObject[] = users.filter(ud => {
                         return ud.user.username === params.username && ud.password === params.password;
@@ -86,7 +89,7 @@ export let fakeBackendProvider = {
                 }
 
                 // get users
-                if (connection.request.url.endsWith('/api/users') && connection.request.method === RequestMethod.Get) {
+                if (connection.request.url.endsWith('/users') && connection.request.method === RequestMethod.Get) {
                     // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {
@@ -114,7 +117,7 @@ export let fakeBackendProvider = {
                 }
 
                 // get user by id
-                if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === RequestMethod.Get) {
+                if (connection.request.url.match(/\/users\/\d+$/) && connection.request.method === RequestMethod.Get) {
                     // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {
@@ -147,7 +150,7 @@ export let fakeBackendProvider = {
                 }
 
                 // create user
-                if (connection.request.url.endsWith('/api/users') && connection.request.method === RequestMethod.Post) {
+                if (connection.request.url.endsWith('/users') && connection.request.method === RequestMethod.Post) {
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {
                       // return 401 not authorised if token is null or invalid
@@ -186,7 +189,7 @@ export let fakeBackendProvider = {
                 }
 
                 // delete user
-                if (connection.request.url.match(/\/api\/users\/\d+$/) && connection.request.method === RequestMethod.Delete) {
+                if (connection.request.url.match(/\/users\/\d+$/) && connection.request.method === RequestMethod.Delete) {
                     // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {

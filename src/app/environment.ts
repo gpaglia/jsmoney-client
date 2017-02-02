@@ -5,33 +5,44 @@ import {
 } from '@angular/platform-browser';
 
 import {
+  Injector,
+  ReflectiveInjector,
   ApplicationRef,
   enableProdMode
 } from '@angular/core';
+
+import {
+  FormBuilder
+} from '@angular/forms';
 
 import { DataResolver } from './_resolvers/app.resolver';
 
 import { BackendHttp } from './_services/backend.http';
 import { Http } from '@angular/http';
 
-// Mock backend
+// Mock backend 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 import { fakeBackendProvider } from './_helpers/fake-backend'
 
 import {
-  UserStateService,
   ConfigService,
   AppStateService,
-  AuthenticationService
+  AuthenticationService,
+  AlertService
 } from './_services';
+
+// Get holt of Config service, we need an explicit Injector for this
+const injector: Injector = ReflectiveInjector.resolveAndCreate([ConfigService]);
+var configService = injector.get(ConfigService);
 
 // Environment Providers
 let PROVIDERS: any[] = [
   AppStateService,
-  UserStateService,
   ConfigService,
-  AuthenticationService
+  AuthenticationService,
+  AlertService,
+  FormBuilder
   // other common env directives
 ];
 
@@ -59,6 +70,7 @@ if ('production' === ENV) {
 
   PROVIDERS = [
     ...PROVIDERS,
+    // always use Http in production
     { provide: BackendHttp, useExisting: Http },
     // custom providers in production
   ];
@@ -85,7 +97,9 @@ if ('production' === ENV) {
   // Development
   PROVIDERS = [
     ...PROVIDERS,
-    { provide: BackendHttp, useExisting: Http },
+    // fake backend services depending on config object
+    fakeBackendProvider,
+    //(configService.isFakeBackend() ? fakeBackendProvider : { provide: BackendHttp, useExisting: Http }),
     // custom providers in development
   ];
 

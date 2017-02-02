@@ -8,24 +8,19 @@ import {
  * see https://github.com/gdi2290/es6-promise-loader for more info
  */
 
-console.log('`Datasets` component loaded asynchronously');
+console.log('`Accounts` component loaded asynchronously');
 
 @Component({
   selector: 'datasets',
   template: `
-    <h1>Hello from Datasets</h1>
-    <span>
-      <a [routerLink]=" ['./dataset-detail'] ">
-        Dataset Detail
-      </a>
-    </span>
+    <h1>Hello from Accounts</h1>
     <router-outlet></router-outlet>
   `,
 })
-export class DatasetsComponent implements OnInit {
+export class AccountsComponent implements OnInit {
 
   public ngOnInit() {
-    console.log('hello `Datasets` component');
+    console.log('hello `Accounts` component');
   }
 
 }

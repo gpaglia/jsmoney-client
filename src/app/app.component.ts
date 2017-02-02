@@ -4,11 +4,13 @@
 import {
   Component,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Input
 } from '@angular/core';
 
-import { AppStateService, UserStateService, AuthenticationService } from './_services';
+import { AppStateService, AuthenticationService } from './_services';
 import { IUserObject, Role } from 'jsmoney-server-api';
+import { Subscription } from 'rxjs';
 
 /*
  * App Component
@@ -23,20 +25,20 @@ import { IUserObject, Role } from 'jsmoney-server-api';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public angularclassLogo = 'assets/img/angularclass-avatar.png';
-  public name = 'Angular 2 Webpack Starter';
-  public url = 'https://twitter.com/AngularClass';
-  userState: any = {};
+  @Input() public angularclassLogo = 'assets/img/angularclass-avatar.png';
+  @Input() public name = 'Angular 2 Webpack Starter';
+  @Input() public url = 'https://twitter.com/AngularClass';
+  @Input() public userState: any = {};
+  private subs: Subscription;
 
   constructor(
     public appState: AppStateService,
-    private userStateService: UserStateService,
     private authenticationService: AuthenticationService
   ) {}
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
-    this.userState = this.userStateService
+    console.log('Initial App State', this.appState.getAppState());
+    this.subs = this.appState
                   .getUserAsync()
                   .subscribe(user => {
                     console.log('User state changed!!');
@@ -48,12 +50,12 @@ export class AppComponent implements OnInit {
                   });
   }
 
+   ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  public logout() {
+    this.authenticationService.logout();
+  }
 }
 
-/*
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */

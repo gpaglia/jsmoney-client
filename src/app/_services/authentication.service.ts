@@ -6,20 +6,21 @@ import 'rxjs/add/operator/map'
 
 import { handleError } from '../_helpers/error-catcher';
 
-import { UserStateService } from './user.state.service';
+import { AppStateService } from './app.state.service';
 import { ConfigService } from './config.service';
 import { ICredentialsObject, IUserObject } from 'jsmoney-server-api';
 
 @Injectable()
 export class AuthenticationService {
     constructor(
-      private userStateService: UserStateService,
+      private appState: AppStateService,
       private config: ConfigService,
       private http: BackendHttp
     ) { }
 
 
     login(credentials: ICredentialsObject): Observable<IUserObject> {
+      console.log('Authentication service, login with credentials ' + JSON.stringify(credentials, null, 4));
         return this.http.post(this.config.api('/authenticate'), JSON.stringify(credentials))
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
@@ -28,7 +29,7 @@ export class AuthenticationService {
                   let user: IUserObject = body.data.user;
                   let token: string = body.data.token;
                   // store user details and jwt token in local storage to keep user logged in between page refreshes
-                  this.userStateService.setState(user, token);
+                  this.appState.setUser(user, token);
                   return Observable.of(user);
                 } else {
                   throw('Got invalid response from server ' + JSON.stringify(body));
@@ -39,6 +40,6 @@ export class AuthenticationService {
 
     logout() {
       // remove user from local storage to log user out
-      this.userStateService.clear();
+      this.appState.clear();
     }
 }
