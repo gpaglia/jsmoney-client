@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { routes } from './datasets.routes';
 import { DatasetsComponent } from './datasets.component';
@@ -27,8 +25,6 @@ console.log('`Datasets` bundle loaded asynchronously');
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
     RTModule,
     RouterModule.forChild(routes),
   ],
