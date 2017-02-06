@@ -92,18 +92,31 @@ module.exports = function (options) {
     module: {
 
       rules: [
+<<<<<<< HEAD
           {
             test: /\.ts$/,
             use: [
             {
+=======
+       {
+         test: /\.ts$/,
+         use: [
+           {
+>>>>>>> refs/remotes/AngularClass/master
              loader: 'tslint-loader',
              options: {
                configFile: 'tslint.json'
              }
            }
          ],
+<<<<<<< HEAD
           exclude: [/\.(spec|e2e)\.ts$/]
         },
+=======
+         exclude: [/\.(spec|e2e)\.ts$/]
+       },
+
+>>>>>>> refs/remotes/AngularClass/master
         /*
          * css loader support for *.css files (styles directory only)
          * Loads external css styles into the DOM, supports HMR

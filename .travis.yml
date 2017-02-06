@@ -16,7 +16,11 @@ matrix:
   fast_finish: true
   allow_failures:
   - node_js: "4"
+<<<<<<< HEAD
   before_install:
+=======
+before_install:
+>>>>>>> refs/remotes/AngularClass/master
   - npm i npm@^4 -g
 install:
   - npm install
