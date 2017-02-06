@@ -2,7 +2,8 @@
 import {
   Component,
   OnInit,
-  Input
+  Input,
+  Inject
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -10,6 +11,9 @@ import { Observable } from 'rxjs';
 import { ListRequest, ListResponse, SortParameter } from 'right-angled';
 
 import { IDatasetObject } from 'jsmoney-server-api';
+
+import { AccountService } from '../../../../_backend-services';
+import { AppStateService } from '../../../../_app-services';
 
 
 
@@ -58,20 +62,54 @@ const fake_datasets: IDatasetObject[] = [
 })
 export class DatasetsListComponent implements OnInit {
 
-    @Input() datasets: IDatasetObject[];
+    //@Input() datasets: IDatasetObject[];
+    constructor(
+        private accountService: AccountService
+    ) { }
 
     public ngOnInit() {
         console.log('hello `Datasets List` component');
-        this.datasets = fake_datasets;
+        if (!this.accountService) {
+            console.log('Account service is null!!!');
+        } else {
+            this.accountService.test();
+        }
+        //this.datasets = fake_datasets;
     }
 
-    public getDatasets(request: ListRequest): Observable<ListResponse<IDatasetObject>>  {
+    getDatasets = (request: ListRequest): Observable<ListResponse<IDatasetObject>> => {
+        console.log('Getting datasets from backend... ');
+        try {
+            this.accountService.test();
+        } catch (error) {
+            console.log('ERROR = ' + JSON.stringify(error, null, 4));
+        }
+        if (!this.accountService) {
+            console.log('Account service is null in getDatasets() !!!');
+        }
+
+/*
+
+
         return Observable.of({
             items: fake_datasets,
             totalCount: fake_datasets.length,
             loadedCount: fake_datasets.length
         } as ListResponse<IDatasetObject>);
-    }
+
+*/
+    
+
+        return this.accountService
+                .getDatasets()
+                .map((ds: IDatasetObject[]) => {
+                    return {
+                        items: ds,
+                        totalCount: ds.length,
+                        loadedCount: ds.length
+                    };
+                });
+      }
 
     public selectDataset(d: IDatasetObject): void {
         console.log('Selected dataset: ' + JSON.stringify(d, null, 4));

@@ -1,31 +1,24 @@
-<div fxLayout="column">
-    <div fxLayout="row" class="dataset-list-header">
-        <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> Name </div>
-        <div fxLayout="row" fxFlex="30" fxLayoutAlign="left"> Description </div>
-        <div fxLayout="row" fxFlex="5" fxLayoutAlign="left"> Currency </div>
-        <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> Additional Currencies </div>
-        <div fxLayout="row" fxFlex="35" fxLayoutAlign="left"> Actions </div>
+<div class="md-content" fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="column" fxFlexAlign="start center" fxFlex fxFlex.md="50" fxFlex.lg="50" fxFlex.gt-lg="33" class="md-whiteframe-z2">
+    <md-toolbar fxLayout="row" fxLayoutAlign="center center" class="md-primary" color="primary">
+      <span fxFlexAlign="center">New Dataset</span>
+    </md-toolbar>
 
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="md-body-2">Enter the new dataset data</p>
+      </div>
+      <form fxLayout="column" fxLayoutALign="center center" [formGroup]="datasetForm" #f="ngForm" (ngSubmit)="newDataset()">
+ 
+        <md-input formControlName="name" placeholder="Name"></md-input>
+        <md-input formControlName="description" placeholder="Description"></md-input>
+        <md-input formControlName="currency" placeholder="Currency"></md-input>
+        <md-input formControlName="additionalCurrencies" placeholder="Additional Currencies"></md-input>
+
+        <button md-button class="md-primary" type="submit" aria-label="create">Create</button>
+        
+      </form>
 
     </div>
-    <template ngFor let-dataset [ngForOf]="datasets">
-
-        <div fxLayout="row" class="dataset-list-data">
-            <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> {{ dataset.name }} </div>
-            <div fxLayout="row" fxFlex="30" fxLayoutAlign="left"> {{ dataset.description }} </div>
-            <div fxLayout="row" fxFlex="5" fxLayoutAlign="left"> {{ dataset.currency }} </div>
-            <div fxLayout="row" fxFlex="15" fxLayoutAlign="left"> {{ dataset.additionalCurrencies | json }} </div>
-            <div fxLayout="row" fxFlex fxLayoutAlign="left">
-                <button md-button class="module-form-action-button" (click)="selectDataset(dataset)">Select</button>
-                <button md-button class="module-form-action-button" (click)="renameDataset(dataset)">Rename</button>
-                <button md-button class="module-form-action-button" (click)="editDataset(dataset)">Add Currency</button>
-            </div>
-        </div>
-    </template>
-
+  </div>
 </div>
-<!--
-<md-list>
-    <md-list-item *ngFor="let dataset of datasets">{{ dataset.name }}</md-list-item>
-</md-list>
--->

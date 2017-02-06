@@ -23,7 +23,7 @@ import 'hammerjs';
  * Platform and Environment providers/directives/pipes
  */
 import { ENV_PROVIDERS, APP_RESOLVER_PROVIDERS } from './environment';
-import { AppStateService, InternalStateType } from './_services/app.state.service';
+import { AppStateService, InternalStateType } from './_app-services/app.state.service';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';

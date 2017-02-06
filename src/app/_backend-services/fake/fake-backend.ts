@@ -1,8 +1,8 @@
-import { BackendHttp } from '../_services/backend.http';
 import { Http, BaseRequestOptions, Request, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { ErrorResponse } from './error-response';
 import * as uuid from 'uuid';
+
+import { BackendHttp } from '../../_app-services';
 
 import {
   IUserObject,
@@ -38,6 +38,12 @@ let fakeUserData: IUserAndPasswordObject[] = [
     password: 'Password'
   }
 ];
+
+export class ErrorResponse extends Response implements Error {
+    name: any
+    message: any
+}
+
 
 export let fakeBackendProvider = {
     // use fake backend in place of Http service for backend-less development

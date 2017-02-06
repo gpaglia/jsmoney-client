@@ -17,22 +17,27 @@ import {
 
 import { DataResolver } from './_resolvers/app.resolver';
 
-import { BackendHttp } from './_services/backend.http';
+import { fakeBackendProvider } from './_backend-services/fake/fake-backend';
 import { Http } from '@angular/http';
 
 // Mock backend 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
-import { fakeBackendProvider } from './_helpers/fake-backend'
 
 import {
   ConfigService,
   AppStateService,
-  AuthenticationService,
-  AlertService
-} from './_services';
+  AlertService,
+  BackendHttp
+} from './_app-services';
 
-// Get holt of Config service, we need an explicit Injector for this
+import {
+  BackendServiceHelper,
+  AuthenticationService,
+  AccountService
+} from './_backend-services'
+
+// Get hold of Config service, we need an explicit Injector for this
 const injector: Injector = ReflectiveInjector.resolveAndCreate([ConfigService]);
 var configService = injector.get(ConfigService);
 
@@ -41,7 +46,9 @@ let PROVIDERS: any[] = [
   AppStateService,
   ConfigService,
   AuthenticationService,
+  AccountService,
   AlertService,
+  BackendServiceHelper,
   FormBuilder
   // other common env directives
 ];
@@ -70,7 +77,7 @@ if ('production' === ENV) {
 
   PROVIDERS = [
     ...PROVIDERS,
-    // always use Http in production
+    // Always use std Uttp service in production
     { provide: BackendHttp, useExisting: Http },
     // custom providers in production
   ];
@@ -98,9 +105,8 @@ if ('production' === ENV) {
   PROVIDERS = [
     ...PROVIDERS,
     // fake backend services depending on config object
-    fakeBackendProvider,
-    //(configService.isFakeBackend() ? fakeBackendProvider : { provide: BackendHttp, useExisting: Http }),
-    // custom providers in development
+    (configService.isFakeBackend() ? fakeBackendProvider : { provide: BackendHttp, useExisting: Http }),
+    // other custom providers in development
   ];
 
   RESOLVER_PROVIDERS = [

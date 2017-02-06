@@ -80,14 +80,4 @@ export class AppStateService {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) as UserStateType ;
   }
 
-  // create auth headers
-  public makeAuthHeaders(): RequestOptions {
-      // create authorization header with jwt token
-      if (this.isLoggedIn()) {
-          let headers = new Headers({ 'Authorization': BEARER + ' ' + this.getToken() });
-          return new RequestOptions({ headers: headers });
-      } else {
-        return new RequestOptions({});
-      }
-  }
 }

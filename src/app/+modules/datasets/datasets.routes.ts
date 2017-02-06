@@ -6,7 +6,7 @@ export const routes = [
   { path: '', children: [
     { path: '', component: DatasetsComponent, children: [
       { path: 'list', component: DatasetsListComponent },
-      { path: 'new', component: DatasetsListComponent },
+      { path: 'new', component: DatasetsNewComponent },
       { path: 'edit/:id', component: DatasetsListComponent }
     ] },
   ]},

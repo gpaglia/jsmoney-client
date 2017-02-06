@@ -8,7 +8,8 @@ import {
   Input
 } from '@angular/core';
 
-import { AppStateService, AuthenticationService } from './_services';
+import { AppStateService } from './_app-services';
+import { AuthenticationService } from './_backend-services';
 import { IUserObject, Role } from 'jsmoney-server-api';
 import { Subscription } from 'rxjs';
 
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   public logout() {
-    this.authenticationService.logout();
+    this.appState.clear();
   }
 }
 

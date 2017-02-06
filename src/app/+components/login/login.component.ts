@@ -2,7 +2,8 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AlertService, AuthenticationService } from '../../_services/index';
+import { AlertService, AppStateService } from '../../_app-services/index';
+import { AuthenticationService } from '../../_backend-services/index';
 
 import { ICredentialsObject } from 'jsmoney-server-api';
 
@@ -21,18 +22,25 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder,
+        private appState: AppStateService
+    ) { }
 
     ngOnInit() {
         // reset login status
-
-        this.authenticationService.logout();
+        this.logout();
+        
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
+    }
+
+    logout() {
+        this.authenticationService.logout();
+        this.appState.clear();
     }
 
     login() {
@@ -44,6 +52,7 @@ export class LoginComponent implements OnInit {
                 .subscribe(
                     data => {
                         console.log('Login successful ' + JSON.stringify(data));
+                        this.appState.setUser(data.user, data.token);
                         this.router.navigate([this.returnUrl]);
                     },
                     error => {
