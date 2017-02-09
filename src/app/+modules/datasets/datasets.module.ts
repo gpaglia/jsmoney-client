@@ -8,9 +8,11 @@ import { DatasetsComponent } from './datasets.component';
 import { DatasetsListComponent } from './+components/list/datasets.list.component';
 import { DatasetsNewComponent } from './+components/new/datasets.new.component';
 
-
 // right-angled
 import { RTModule } from 'right-angled';
+
+// Shared components
+import { SharedComponentsModule } from '../shared.components/shared.components.module';
 
 console.log('`Datasets` bundle loaded asynchronously');
 
@@ -26,6 +28,7 @@ console.log('`Datasets` bundle loaded asynchronously');
     FormsModule,
     ReactiveFormsModule,
     RTModule,
+    SharedComponentsModule,
     RouterModule.forChild(routes),
   ],
 })

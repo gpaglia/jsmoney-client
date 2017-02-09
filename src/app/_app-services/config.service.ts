@@ -18,7 +18,7 @@ export class ConfigService {
     console.log('Result config: ' + JSON.stringify(this.configObject));
   }
 
-  getApiPrefix() {
+  public getApiPrefix() {
     return 'http://'
               + this.configObject.api.host
               + ':'
@@ -27,11 +27,11 @@ export class ConfigService {
               + this.configObject.api.version;
   }
 
-  api(segment: string) {
+  public api(segment: string) {
     return this.getApiPrefix() + segment;
   }
 
-  isFakeBackend(): boolean {
+  public isFakeBackend(): boolean {
     return !!this.configObject['fake-backend'];
   }
 

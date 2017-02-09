@@ -3,19 +3,27 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AlertService, AppStateService } from '../../_app-services/index';
-import { AuthenticationService } from '../../_backend-services/index';
+import {
+    AuthenticationService,
+    BackendError
+} from '../../_backend-services';
 
-import { ICredentialsObject } from 'jsmoney-server-api';
+import {
+    ICredentialsObject,
+    IAuthenticateData
+} from 'jsmoney-server-api';
 
 @Component({
     templateUrl: './login.component.html'
 })
 
 export class LoginComponent implements OnInit {
+    @Input() public loading = false;
+    @Input() public returnUrl: string;
+    @Input() public loginForm: FormGroup;
+
+    // private fields
     private credentials: ICredentialsObject;
-    @Input() loading = false;
-    @Input() returnUrl: string;
-    @Input() loginForm: FormGroup;
 
     constructor(
         private route: ActivatedRoute,
@@ -26,10 +34,12 @@ export class LoginComponent implements OnInit {
         private appState: AppStateService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         // reset login status
         this.logout();
-        
+
+        this.loading = false;
+
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.params['returnUrl'] || '/';
         this.loginForm = this.formBuilder.group({
@@ -38,26 +48,29 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    logout() {
+    public logout() {
         this.authenticationService.logout();
         this.appState.clear();
     }
 
-    login() {
-        this.credentials = {username: this.loginForm.value.username, password: this.loginForm.value.password};
-        console.log('Login starting, credentials: ' + JSON.stringify(this.credentials, null, 4));
+    public login() {
+        this.credentials = {
+            username: this.loginForm.value.username,
+            password: this.loginForm.value.password
+        };
+
         this.loading = true;
         if (this.loginForm.valid) {
             this.authenticationService.login(this.credentials)
                 .subscribe(
-                    data => {
+                    (data: IAuthenticateData) => {
                         console.log('Login successful ' + JSON.stringify(data));
                         this.appState.setUser(data.user, data.token);
                         this.router.navigate([this.returnUrl]);
                     },
-                    error => {
-                        console.log('Login error ' + error);
-                        this.alertService.error(error);
+                    (error: BackendError) => {
+                        console.log('Login error ' + error.toString());
+                        this.alertService.error(error.toString());
                         this.loading = false;
                     });
         } else {

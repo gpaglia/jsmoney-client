@@ -15,8 +15,6 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
-import 'hammerjs';
-
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -32,9 +30,18 @@ import { RegisterComponent } from './+components/register';
 import { NoContentComponent } from './+components/no-content';
 import { ProfileComponent } from './+components/profile';
 import { XLargeDirective } from './_directives/x-large';
+import {
+  AlertModule
+} from 'ng2-bootstrap';
 
+// Styles
 import '../styles/styles.scss';
 import '../styles/headings.css';
+
+// this is for Bootstrap
+import 'tether/dist/js/tether.min.js';
+import 'jquery/dist/jquery.slim.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 type StoreType = {
   state: InternalStateType,
@@ -62,6 +69,7 @@ type StoreType = {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    AlertModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

@@ -1,22 +1,4 @@
 <!--
-<nav>
-  <a [routerLink]=" ['./'] " routerLinkActive="active">
-    Index
-  </a>
-  <a [routerLink]=" ['./home'] " routerLinkActive="active">
-    Home
-  </a>
-  <a [routerLink]=" ['./detail'] " routerLinkActive="active">
-    Detail
-  </a>
-  <a [routerLink]=" ['./barrel'] " routerLinkActive="active">
-    Barrel
-  </a>
-  <a [routerLink]=" ['./about'] " routerLinkActive="active">
-    About
-  </a>
-</nav>
--->
 <div fxFlex="100%" fxLayout="column" fxLayoutAlignment="start stretch" class="main-app-container">
   <div class="main-app-toolbar-container">
     <md-toolbar class="main-app-toolbar" fxLayout="row" fxLayoutAlign="center center" color="primary">
@@ -49,9 +31,6 @@
   </div>
 </div>
 
-
-
-<!--
 <footer>
   <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
   <div>
@@ -61,3 +40,48 @@
   </div>
 </footer>
 -->
+<div class="row">
+  <div class="col-12">
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">JSMoney</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./profile']" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./datasets']" routerLinkActive="active">Datasets</a>
+            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./accounts']" routerLinkActive="active">Accounts</a>
+            <a class="nav-item nav-link" [hidden]="userState.loggedIn" [routerLink]="['./login']" routerLinkActive="active">Login</a>
+          </div>
+          <div class="navbar-nav ml-auto">
+            <button [hidden]="!userState.loggedIn" class="btn btn-sm align-baseline btn-outline-success" type="button" (click)="logout()">Logout</button>
+          </div>
+        </div>
+    </nav>
+  </div>
+
+  <main  class="col-12" style="background-color: lightgreen">
+    <router-outlet></router-outlet>
+  </main>
+
+  <div class="col-12" style="background-color: lightslategray">
+      <div class="row">
+        <div class="col">
+          <span>JSMoney by gpaglia</span>
+        </div>
+        <div class="col">
+          <span>...</span>
+        </div>
+        <div class="col">
+          <span *ngIf="userState.loggedIn">Logged In as {{userState.username}} ({{userState.role}})</span>
+          <span *ngIf="!userState.loggedIn">Not Logged In</span>
+        </div>
+
+      </div>
+      <div class="row" *ngIf="message">
+        <alert [type]="message.type" dismissable="true">{{message.text}}</alert>
+        <button type="button" class="btn btn-primary" (click)="clearMessage()">Dismiss</button>
+      </div>
+  </div>

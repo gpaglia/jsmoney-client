@@ -3,14 +3,19 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
+export type AlertMessage = {
+    type: 'success' | 'info' | 'warning' | 'danger';
+    text: string;
+};
+
 @Injectable()
 export class AlertService {
-    private subject = new Subject<any>();
+    private subject = new Subject<AlertMessage>();
     private keepAfterNavigationChange = false;
 
     constructor(private router: Router) {
         // clear alert message on route change
-        router.events.subscribe(event => {
+        router.events.subscribe((event) => {
             if (event instanceof NavigationStart) {
                 if (this.keepAfterNavigationChange) {
                     // only keep for a single location change
@@ -23,17 +28,27 @@ export class AlertService {
         });
     }
 
-    success(message: string, keepAfterNavigationChange = false) {
+    public success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
     }
 
-    error(message: string, keepAfterNavigationChange = false) {
+    public info(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
-        this.subject.next({ type: 'error', text: message });
+        this.subject.next({ type: 'info', text: message });
     }
 
-    getMessage(): Observable<any> {
+    public warning(message: string, keepAfterNavigationChange = false) {
+        this.keepAfterNavigationChange = keepAfterNavigationChange;
+        this.subject.next({ type: 'warning', text: message });
+    }
+
+    public error(message: string, keepAfterNavigationChange = false) {
+        this.keepAfterNavigationChange = keepAfterNavigationChange;
+        this.subject.next({ type: 'danger', text: message });
+    }
+
+    public getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
 }

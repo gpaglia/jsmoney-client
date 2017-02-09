@@ -7,10 +7,9 @@ export class AuthGuard implements CanActivate {
 
     constructor(
       private router: Router,
-      private appState: AppStateService)
-    { }
+      private appState: AppStateService) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
       let url: string = state.url;
       if (this.appState.isLoggedIn()) {
           // logged in so return true

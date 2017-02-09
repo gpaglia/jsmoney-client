@@ -11,18 +11,15 @@ import { AccountService } from '../../../../_backend-services';
 
 import { IDatasetObject } from 'jsmoney-server-api';
 
-
 console.log('`Datasets new` component loaded asynchronously');
-
-
 
 @Component({
     templateUrl: './datasets.new.component.html',
 })
 export class DatasetsNewComponent implements OnInit {
 
-    @Input() dataset: IDatasetObject;
-    @Input() datasetForm: FormGroup;
+    @Input() public dataset: IDatasetObject;
+    @Input() public datasetForm: FormGroup;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -48,16 +45,17 @@ export class DatasetsNewComponent implements OnInit {
             description: this.datasetForm.controls['description'].value,
             currency: this.datasetForm.controls['currency'].value,
             additionalCurrencies: []
-            //additionalCurrencies: JSON.parse('[' + this.datasetForm.controls['additionalCurrencies'].value + ']')
-        }
+        // additionalCurrencies: JSON.parse(
+        // '[' + this.datasetForm.controls['additionalCurrencies'].value + ']')
+        };
         this.accountService
             .createDataset(newDataset)
             .subscribe(
-                data => {
+                (data) => {
                     console.log('Created dataset ' + JSON.stringify(data));
 
                 },
-                error => {
+                (error) => {
                     console.log('Error in newDataset() ' + JSON.stringify(error));
                 }
             );

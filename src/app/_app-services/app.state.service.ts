@@ -19,9 +19,7 @@ export class AppStateService {
   private subject = new Subject<IUserObject>();
   private _state: InternalStateType = { };
 
-  constructor() {
-
-  }
+  // constructor() {}
 
   public resetAppState(newState: InternalStateType) {
     this._state = newState;
@@ -38,13 +36,7 @@ export class AppStateService {
     return this._state[prop] = value;
   }
 
-
-  private _clone(object: InternalStateType) {
-    // simple object clone
-    return JSON.parse(JSON.stringify( object ));
-  }
-
-  // User state  
+  // User state
   public clear(): void {
     localStorage.removeItem(STORAGE_KEY);
     this.subject.next(undefined as IUserObject);
@@ -52,7 +44,7 @@ export class AppStateService {
 
   public isLoggedIn(): boolean {
     let state = this.getUserState();
-    return state != undefined && state.token != undefined && state.user != undefined;
+    return !!state && !!state.token && !!state.user;
   }
 
   public getToken(): string {
@@ -78,6 +70,11 @@ export class AppStateService {
 
   public getUserState(): UserStateType {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) as UserStateType ;
+  }
+
+  private _clone(object: InternalStateType) {
+    // simple object clone
+    return JSON.parse(JSON.stringify( object ));
   }
 
 }

@@ -4,12 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { BackendServiceHelper, BodyParser } from './backend.service.helper';
 import { ConfigService, AppStateService } from '../_app-services';
 
-import { 
-    IDatasetObject, 
-    IAccountObject, 
+import {
+    IDatasetObject,
+    IAccountObject,
     AccountType,
-    IUserObject, 
-    IBody, 
+    IUserObject,
+    IBody,
     makeBody } from 'jsmoney-server-api';
 
 @Injectable()
@@ -25,11 +25,19 @@ export class AccountService {
     }
 
     public getDatasets(): Observable<IDatasetObject[]> {
-        return this.backend.get(['datasets'], null, true);
+        return this.backend.get(
+            ['datasets'],
+            null,
+            true);
     }
 
     public getDatasetById(id: string): Observable<IDatasetObject> {
-        return this.backend.get(['datasets', ':id'], {'id': id}, null, null, true);
+        return this.backend.get(
+            ['datasets', ':id'],
+            {id},
+            null,
+            null,
+            true);
     }
 
     public createDataset(dataset: IDatasetObject): Observable<IDatasetObject> {
@@ -37,24 +45,37 @@ export class AccountService {
     }
 
     public getAccounts(datasetId: string): Observable<IAccountObject[]> {
-        return this.backend.get(['datasets', ':id', 'accounts'], {'id': datasetId}, null, null, true);
+        return this.backend.get(
+            ['datasets', ':id', 'accounts'],
+            {id: datasetId},
+            null,
+            null,
+            true);
     }
 
     public getAccountById(id: string): Observable<IAccountObject> {
-        return this.backend.get(['accounts', ':id'], {'id': id}, null, null, true);
+        return this.backend.get(
+            ['accounts', ':id'],
+            {id},
+            null,
+            null,
+            true);
     }
 
      public createAccount(datasetId: string, account: IAccountObject): Observable<IAccountObject> {
-        return this.backend.postEmbed(['datasets', ':id', 'accounts'], {'id': datasetId}, null, account, null, true);
+        return this.backend.postEmbed(
+            ['datasets', ':id', 'accounts'],
+            {id: datasetId},
+            null,
+            account,
+            null,
+            true);
     }
 
 /*
     public abstract updateDataset(dataset: IDatasetObject): Observable<IDatasetObject>;
-
     public abstract deleteDataset(id: string): Observable<void>;
 
 */
 
-
 }
-

@@ -1,15 +1,18 @@
 import { IApiError } from 'jsmoney-server-api';
 
 export class BackendError implements IApiError {
-    name: string;
-    message: string;
-    status: number;
-    otherInfo: any;
+    public name: string;
+    public message: string;
+    public status: number;
+    public otherInfo: any;
 
     constructor(error: IApiError, otherInfo?: any);
     constructor(message: string, status?: number, otherInfo?: any);
 
-    constructor(errorOrMessage: IApiError | string, otherInfoOrStatus?: any | number, otherInfo?: number) {
+    constructor(
+        errorOrMessage: IApiError | string,
+        otherInfoOrStatus?: any | number,
+        otherInfo?: number) {
 
         this.name = this['constructor'].name;
         if (arguments.length === 3) {
@@ -35,5 +38,12 @@ export class BackendError implements IApiError {
             }
             this.otherInfo = {};
         }
+    }
+
+    public toString(): string {
+        return (this.name || 'BackendError')
+                + ': ' + (this.message || 'nomsg')
+                + '; status = ' + this.status
+                + (this.otherInfo ? ' (' + JSON.stringify(this.otherInfo) + ')' : '');
     }
 }

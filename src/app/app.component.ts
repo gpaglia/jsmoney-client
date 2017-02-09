@@ -4,11 +4,17 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ViewEncapsulation,
   Input
 } from '@angular/core';
 
-import { AppStateService } from './_app-services';
+import {
+  AppStateService,
+  AlertService,
+  AlertMessage
+} from './_app-services';
+
 import { AuthenticationService } from './_backend-services';
 import { IUserObject, Role } from 'jsmoney-server-api';
 import { Subscription } from 'rxjs';
@@ -25,38 +31,51 @@ import { Subscription } from 'rxjs';
   ],
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @Input() public angularclassLogo = 'assets/img/angularclass-avatar.png';
   @Input() public name = 'Angular 2 Webpack Starter';
   @Input() public url = 'https://twitter.com/AngularClass';
   @Input() public userState: any = {};
-  private subs: Subscription;
+  @Input() public message: AlertMessage;
+
+  private userStateSubscription: Subscription;
+  private alertSubscription: Subscription;
 
   constructor(
     public appState: AppStateService,
+    private alertService: AlertService,
     private authenticationService: AuthenticationService
   ) {}
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.getAppState());
-    this.subs = this.appState
+    this.userStateSubscription = this.appState
                   .getUserAsync()
-                  .subscribe(user => {
+                  .subscribe((user) => {
                     console.log('User state changed!!');
                     this.userState = {
+                      loggedIn: user && user.id,
                       id: user ? user.id : undefined,
                       username: user ? user.username : 'anonymous',
                       role: user ? Role[user.role] : undefined
-                    }
+                    };
                   });
+    this.alertSubscription =
+          this.alertService.getMessage().subscribe((message) => {
+            this.message = message;
+          });
   }
 
-   ngOnDestroy() {
-    this.subs.unsubscribe();
+  public ngOnDestroy() {
+    this.userStateSubscription.unsubscribe();
+    this.alertSubscription.unsubscribe();
+  }
+
+  public clearMessage() {
+    this.message = undefined;
   }
 
   public logout() {
     this.appState.clear();
   }
 }
-

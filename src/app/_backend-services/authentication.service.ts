@@ -1,10 +1,19 @@
 ﻿import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { BackendServiceHelper, BodyParser } from './backend.service.helper';
+import {
+  BackendServiceHelper,
+  BodyParser
+} from './backend.service.helper';
+import { BackendError } from '.';
 import { ConfigService, AppStateService } from '../_app-services';
-import { ICredentialsObject, IAuthenticateData, IUserObject, IBody, makeBody } from 'jsmoney-server-api';
-
+import {
+  ICredentialsObject,
+  IAuthenticateData,
+  IUserObject,
+  IBody,
+  makeBody }
+from 'jsmoney-server-api';
 
 @Injectable()
 export class AuthenticationService {

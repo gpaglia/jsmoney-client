@@ -1,4 +1,10 @@
-import { Http, BaseRequestOptions, Request, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import {
+  Http,
+  BaseRequestOptions,
+  Request,
+  Response,
+  ResponseOptions,
+  RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import * as uuid from 'uuid';
 
@@ -10,7 +16,6 @@ import {
   Role,
   ICredentialsObject
 } from 'jsmoney-server-api';
-
 
 let fakeUserData: IUserAndPasswordObject[] = [
   {
@@ -40,10 +45,9 @@ let fakeUserData: IUserAndPasswordObject[] = [
 ];
 
 export class ErrorResponse extends Response implements Error {
-    name: any
-    message: any
+    public name: any;
+    public message: any;
 }
-
 
 export let fakeBackendProvider = {
     // use fake backend in place of Http service for backend-less development
@@ -61,28 +65,34 @@ export let fakeBackendProvider = {
             // wrap in timeout to simulate server api call
             setTimeout(() => {
 
-                console.log('Fake backend, got request ' + JSON.stringify(connection.request, null, 4));
+                console.log('Fake backend, got request '
+                              + JSON.stringify(connection.request, null, 4));
                 // authenticate
-                if (connection.request.url.endsWith('/authenticate') && connection.request.method === RequestMethod.Post) {
+                if (connection.request.url.endsWith('/authenticate')
+                    && connection.request.method === RequestMethod.Post) {
+
                     // get parameters from post request
                     let params: ICredentialsObject = JSON.parse(connection.request.getBody());
 
-                    console.log('Fake backend authenticate called, credentials = ' + JSON.stringify(params, null, 4))
-                    
+                    console.log('Fake backend authenticate called, credentials = '
+                                  + JSON.stringify(params, null, 4));
+
                     // find if any user matches login credentials
-                    let filteredUsers: IUserAndPasswordObject[] = users.filter(ud => {
-                        return ud.user.username === params.username && ud.password === params.password;
+                    let filteredUsers: IUserAndPasswordObject[] = users.filter((ud) => {
+                        return ud.user.username === params.username
+                                  && ud.password === params.password;
                     });
 
                     if (filteredUsers.length) {
-                        // if login details are valid return 200 OK with user details and fake jwt token
+                        // if login details are valid return 200 OK
+                        // with user details and fake jwt token
                         let user: IUserObject = filteredUsers[0].user;
                         connection.mockRespond(new Response(new ResponseOptions(
                           {
                             status: 200,
                             body: {
                                 data: {
-                                  user: user,
+                                  user,
                                   token: makeToken(user)
                                 }
                             }
@@ -95,9 +105,13 @@ export let fakeBackendProvider = {
                 }
 
                 // get users
-                if (connection.request.url.endsWith('/users') && connection.request.method === RequestMethod.Get) {
-                    // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-                    let auth = checkAuthorization(connection.request, Role.administrator);
+                if (connection.request.url.endsWith('/users')
+                      && connection.request.method === RequestMethod.Get) {
+                    // check for fake auth token in header and return users if valid,
+                    // this security is implemented server side in a real application
+                    let auth = checkAuthorization(
+                                connection.request,
+                                Role.administrator);
                     if (auth === AuthStatus.noauth) {
                       // return 401 not authorised if token is null or invalid
                       return returnError(connection, 401, 'Not logged in or not authorized');
@@ -107,7 +121,7 @@ export let fakeBackendProvider = {
                     }
 
                     // OK and authorized
-                    let result: IUserObject[] = users.map(ud => ud.user);
+                    let result: IUserObject[] = users.map((ud) => ud.user);
                     connection.mockRespond(new Response(new ResponseOptions(
                       {
                         status: 200,
@@ -123,9 +137,14 @@ export let fakeBackendProvider = {
                 }
 
                 // get user by id
-                if (connection.request.url.match(/\/users\/\d+$/) && connection.request.method === RequestMethod.Get) {
-                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
-                    let auth = checkAuthorization(connection.request, Role.administrator);
+                if (connection.request.url.match(/\/users\/\d+$/)
+                      && connection.request.method === RequestMethod.Get) {
+                    // check for fake auth token in header and return user if valid,
+                    // this security is implemented server side in a real application
+                    let auth = checkAuthorization(
+                                connection.request,
+                                Role.administrator);
+
                     if (auth === AuthStatus.noauth) {
                       // return 401 not authorised if token is null or invalid
                       return returnError(connection, 401, 'Not logged in or not authorized');
@@ -138,7 +157,10 @@ export let fakeBackendProvider = {
                     // find user by id in users array
                     let urlParts = connection.request.url.split('/');
                     let id: string = urlParts[urlParts.length - 1];
-                    let matchedUsers: IUserObject[] = users.map(ud => ud.user).filter(user => { return user.id === id; });
+                    let matchedUsers: IUserObject[] =
+                        users
+                          .map((ud) => ud.user)
+                          .filter((user) => { return user.id === id; });
                     let user: IUserObject = matchedUsers.length ? matchedUsers[0] : null;
 
                     // respond 200 OK with user
@@ -148,7 +170,7 @@ export let fakeBackendProvider = {
                         body:
                           {
                             data: {
-                              user: user
+                              user
                             }
                           }
                       }
@@ -156,7 +178,8 @@ export let fakeBackendProvider = {
                 }
 
                 // create user
-                if (connection.request.url.endsWith('/users') && connection.request.method === RequestMethod.Post) {
+                if (connection.request.url.endsWith('/users')
+                      && connection.request.method === RequestMethod.Post) {
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {
                       // return 401 not authorised if token is null or invalid
@@ -168,12 +191,18 @@ export let fakeBackendProvider = {
 
                     // OK and authorized
                     // get new user object from post body
-                    let newUser: IUserAndPasswordObject  = <IUserAndPasswordObject>JSON.parse(connection.request.getBody());
+                    let newUser: IUserAndPasswordObject =
+                          <IUserAndPasswordObject> JSON.parse(connection.request.getBody());
 
                     // validation
-                    let duplicateUser: number = users.filter(ud => { return ud.user.username === newUser.user.username; }).length;
+                    let duplicateUser: number =
+                      users
+                        .filter((ud) => {
+                          return ud.user.username === newUser.user.username; })
+                        .length;
                     if (duplicateUser) {
-                        return returnError(connection, 409, 'Username "' + newUser.user.username + '" is already taken');
+                        return returnError(connection, 409,
+                          'Username "' + newUser.user.username + '" is already taken');
                     }
 
                     // save new user
@@ -195,8 +224,10 @@ export let fakeBackendProvider = {
                 }
 
                 // delete user
-                if (connection.request.url.match(/\/users\/\d+$/) && connection.request.method === RequestMethod.Delete) {
-                    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
+                if (connection.request.url.match(/\/users\/\d+$/)
+                      && connection.request.method === RequestMethod.Delete) {
+                    // check for fake auth token in header and return user if valid,
+                    // this security is implemented server side in a real application
                     let auth = checkAuthorization(connection.request, Role.administrator);
                     if (auth === AuthStatus.noauth) {
                       // return 401 not authorised if token is null or invalid
@@ -249,7 +280,7 @@ type FakeToken = {
 };
 
 function makeToken(user: IUserObject): string {
-  let token: FakeToken = { user: user, key: 'fake-token' };
+  let token: FakeToken = { user, key: 'fake-token' };
   return JSON.stringify(token);
 }
 

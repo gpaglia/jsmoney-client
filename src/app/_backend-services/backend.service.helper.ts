@@ -4,15 +4,17 @@ import { ConfigService, AppStateService, BackendHttp } from '../_app-services';
 
 import { BackendError } from './backend.error';
 
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import 'rxjs/add/observable/throw';
 
 import { BEARER, IBody, makeBody, IApiError } from 'jsmoney-server-api';
-
 
 export type BodyParser<U> = (body: any) => U;
 export type UrlParams = { [name: string]: string };
 export type QryParams = { [name: string]: (string | string[] | UrlParams) };
 
+type ErrorHandler = (error: Response|BackendError|IApiError|any) => ErrorObservable<BackendError>;
 
 @Injectable()
 export class BackendServiceHelper {
@@ -25,23 +27,21 @@ export class BackendServiceHelper {
     public get<T>(
         segments: string[],
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
+        auth: boolean): Observable<T>;
 
     public get<T>(
         segments: string[],
         urlParams: UrlParams,
         qryParams: QryParams,
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
+        auth: boolean): Observable<T>;
 
     public get<T>(
         segments: string[],
         urlParamsOrParser: UrlParams | BodyParser<T>,
         qryParamsOrAuth: QryParams | boolean,
         parser?: BodyParser<T>,
-        auth?: boolean): Observable<T|BackendError> {
-
-        console.log('Entering Backend get ' + JSON.stringify(segments));
+        auth?: boolean): Observable<T> {
 
         let urlParams: UrlParams = undefined;
         let qryParams: QryParams = undefined;
@@ -58,8 +58,6 @@ export class BackendServiceHelper {
 
         let url = this.makeUrl(segments, urlParams, qryParams);
 
-        console.log('Backend get: url ' + url + ' auth ' + auth);
-
         return this.http
             .get(url, this.makeRequestOptions(auth))
             .map((response: Response) => {
@@ -67,7 +65,8 @@ export class BackendServiceHelper {
                 if (resbody) {
                     return resbody;
                 } else {
-                    return Observable.throw('Invalid data received from service or parser ' + url);
+                    return Observable.throw(
+                        'Invalid data received from service or parser ' + url);
                 }
             })
             .catch(makeErrorHandler(segments));
@@ -77,7 +76,7 @@ export class BackendServiceHelper {
         segments: string[],
         body: S,
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
+        auth: boolean): Observable<T>;
 
     public postEmbed<S, T>(
         segments: string[],
@@ -85,8 +84,7 @@ export class BackendServiceHelper {
         qryParams: QryParams,
         body: S,
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
-
+        auth: boolean): Observable<T>;
 
     public postEmbed<S, T>(
         segments: string[],
@@ -94,7 +92,7 @@ export class BackendServiceHelper {
         qryParamsOrParser: QryParams | BodyParser<T>,
         bodyOrAuth: S | boolean,
         parser?: BodyParser<T>,
-        auth?: boolean): Observable<T|BackendError> {
+        auth?: boolean): Observable<T> {
 
         let urlParams: UrlParams = undefined;
         let qryParams: QryParams = undefined;
@@ -118,7 +116,7 @@ export class BackendServiceHelper {
         segments: string[],
         body: S,
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
+        auth: boolean): Observable<T>;
 
     public post<S, T>(
         segments: string[],
@@ -126,7 +124,7 @@ export class BackendServiceHelper {
         qryParams: QryParams,
         body: S,
         parser: BodyParser<T>,
-        auth: boolean): Observable<T|BackendError>;
+        auth: boolean): Observable<T>;
 
     public post<S, T>(
         segments: string[],
@@ -134,7 +132,7 @@ export class BackendServiceHelper {
         qryParamsOrParser: QryParams | BodyParser<T>,
         bodyOrAuth: S | boolean,
         parser?: BodyParser<T>,
-        auth?: boolean): Observable<T|BackendError> {
+        auth?: boolean): Observable<T> {
 
         console.log('Entering Backend post ' + JSON.stringify(segments));
 
@@ -156,22 +154,22 @@ export class BackendServiceHelper {
 
         let url = this.makeUrl(segments, urlParams, qryParams);
 
-        console.log('Backend post: url ' + url + ' auth ' + auth + ' body ' + JSON.stringify(body, null, 4));
         return this.http.post(url, body, this.makeRequestOptions(auth))
             .map((response: Response) => {
                 let resbody: T = parser(response.json());
                 if (resbody) {
                     return resbody;
                 } else {
-                    throw new BackendError('Invalid data received from service or parser ' + url, -1, {});
+                    throw new BackendError(
+                        'Invalid data received from service or parser ' + url,
+                        -1,
+                        {});
                 }
             })
             .catch(makeErrorHandler(segments));
     }
 
-
     private defaultParser<T>(body: any): T {
-        console.log('Default parser, body ' + JSON.stringify(body, null, 4));
         return (body as IBody<T>).data;
     }
 
@@ -201,7 +199,7 @@ export class BackendServiceHelper {
 
         let qmark: boolean = false;
 
-        for (let k in qryParams) {
+        Object.keys(qryParams).forEach((k) => {
             let qp: string | string[] | UrlParams = qryParams[k];
             if (!qmark) {
                 url = url + '?';
@@ -215,18 +213,18 @@ export class BackendServiceHelper {
                 url = url + k + '=' + qp.join('+');
             } else if (qp instanceof Object) {
                 let first: boolean = true;
-                for (let subk in qp) {
+                Object.keys(qp).forEach((subk) => {
                     if (!first) {
                         url = url + '&';
                     } else {
                         first = false;
                     }
                     url = url + k + '[' + subk + ']=' + qp[subk];
-                }
+                });
             } else {
                 throw 'Invalid query params';
             }
-        }
+        });
 
         return url;
 
@@ -238,29 +236,25 @@ export class BackendServiceHelper {
         if (auth) {
             hdrs.append('Authorization', this.appState.getToken());
         }
-        let opt = { headers: hdrs }
-        console.log('Backend svc helper: headers: ' + JSON.stringify(opt, null, 4));
+        let opt = { headers: hdrs };
         return opt;
     }
 
 }
 
-function makeErrorHandler(segments: string[]): (error: Response | BackendError | IApiError | any) => Observable<BackendError> {
+function makeErrorHandler(segments: string[]): ErrorHandler {
     return (error: Response | BackendError | IApiError | any) => {
 
         let newError: BackendError;
 
-        console.error('Error (in handler) ' + JSON.stringify(error, null, 4));
-
         if (error instanceof Response) {
             const body = error.json() || '';
             const err = body.error || JSON.stringify(body, null, 4);
-            let errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
             newError = new BackendError(
                 error.statusText || ('Status: ' + error.status),
                 error.status,
                 {
-                    errorBody: body,
+                    errorBody: err,
                     apiSegments: segments
                 });
         } else if (error instanceof BackendError) {
@@ -270,13 +264,13 @@ function makeErrorHandler(segments: string[]): (error: Response | BackendError |
             }
         } else if (!!error.name && !!error.message && !!error.status) {
             newError = new BackendError(
-                error.message, 
-                error.status, 
+                error.message,
+                error.status,
                 {
                     errorBody: JSON.stringify(error),
                     otherInfo: error.otherInfo,
                     apiSegments: segments
-                });   
+                });
         } else {
             newError = new BackendError(
                 JSON.stringify(error),
@@ -284,15 +278,12 @@ function makeErrorHandler(segments: string[]): (error: Response | BackendError |
                 {}
             );
         }
+        console.log('Creating BackendError: ' + JSON.stringify(newError));
         return Observable.throw(newError);
     };
 }
 
-
 function handleError(error: Response | Error | any) {
-
-
-    console.error('Handle Error ' + JSON.stringify(error, null, 4));
 
     let errMsg: string;
     if (error instanceof Response) {
@@ -306,6 +297,3 @@ function handleError(error: Response | Error | any) {
     }
     return Observable.throw(errMsg);
 }
-
-
-

@@ -6,7 +6,6 @@ import { ConfigService, AppStateService } from '../_app-services';
 
 import { IUserObject, IBody, makeBody } from 'jsmoney-server-api';
 
-
 @Injectable()
 export class UserService {
     constructor(
@@ -16,21 +15,32 @@ export class UserService {
     ) { }
 
     public getUsers(): Observable<IUserObject[]> {
-      return this.backend.get(['users'], null, true);
+      return this.backend.get(
+          ['users'],
+          null,
+          true);
     }
 
     public getUserById(id: string): Observable<IUserObject> {
-        return this.backend.get(['users', ':id'], {'id': id}, null, null, true);
+        return this.backend.get(
+            ['users', ':id'],
+            {id},
+            null,
+            null,
+            true);
     }
 
     public createUser(user: IUserObject): Observable<IUserObject> {
-        return this.backend.postEmbed(['users'], makeBody(user), null, true);
+        return this.backend.postEmbed(
+            ['users'],
+            makeBody(user),
+            null,
+            true);
     }
 /*
 
     public deleteUser(id: string): Observable<void>;
 
 */
-
 
 }

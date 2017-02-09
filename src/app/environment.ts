@@ -20,7 +20,7 @@ import { DataResolver } from './_resolvers/app.resolver';
 import { fakeBackendProvider } from './_backend-services/fake/fake-backend';
 import { Http } from '@angular/http';
 
-// Mock backend 
+// Mock backend
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 
@@ -35,11 +35,11 @@ import {
   BackendServiceHelper,
   AuthenticationService,
   AccountService
-} from './_backend-services'
+} from './_backend-services';
 
 // Get hold of Config service, we need an explicit Injector for this
 const injector: Injector = ReflectiveInjector.resolveAndCreate([ConfigService]);
-var configService = injector.get(ConfigService);
+let configService = injector.get(ConfigService);
 
 // Environment Providers
 let PROVIDERS: any[] = [
@@ -87,7 +87,6 @@ if ('production' === ENV) {
     // custom resolver providers in production
   ];
 
-
 } else {
 
   _decorateModuleRef = (modRef: any) => {
@@ -105,7 +104,8 @@ if ('production' === ENV) {
   PROVIDERS = [
     ...PROVIDERS,
     // fake backend services depending on config object
-    (configService.isFakeBackend() ? fakeBackendProvider : { provide: BackendHttp, useExisting: Http }),
+    (configService.isFakeBackend() ?
+      fakeBackendProvider : { provide: BackendHttp, useExisting: Http }),
     // other custom providers in development
   ];
 
@@ -123,4 +123,4 @@ export const ENV_PROVIDERS = [
 
 export const APP_RESOLVER_PROVIDERS = [
   ...RESOLVER_PROVIDERS
-]
+];

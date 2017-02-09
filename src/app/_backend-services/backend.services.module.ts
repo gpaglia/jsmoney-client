@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
@@ -13,4 +12,3 @@ import { NgModule } from '@angular/core';
 })
 export class BackendServicesModule {
 }
-

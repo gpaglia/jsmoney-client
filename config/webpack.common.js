@@ -21,6 +21,9 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 
+// Added by GP
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+
 /*
  * Webpack Constants
  */
@@ -196,6 +199,22 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+
+      /*
+       * Provide Plugin to make bootstrap recognize jquery
+       */
+
+      new ProvidePlugin({   
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
+        tether: 'tether',
+        Tether: 'tether'
+      }),
+      /*
+       * AssetsPlugin
+       */
+
       new AssetsPlugin({
         path: helpers.root('dist'),
         filename: 'webpack-assets.json',
