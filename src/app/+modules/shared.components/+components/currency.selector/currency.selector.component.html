@@ -1,0 +1,31 @@
+<div>
+  <table class="table table-striped" [rtList]="getCurrencies" #list="rtList">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th *ngIf="(selector==='single'||selector==='multiple')">Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let currency of list.items">
+        <td>{{currency.code}}</td>
+        <td>{{currency.description}}</td>
+        <td>
+            <div *ngIf="selector=='single'">
+              <input type="button" (onclick)="selectCurrency(currency.code)" value="Select"> 
+            </div>
+            <div *ngIf="selector=='multiple'">
+              <input type="checkbox" (onclick)="selectCurrency(currency.code)" value="Select"> 
+            </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="(selector=='view'||selector=='multiple')">
+      <button (click)="confirm()">OK</button>
+      <span *ngIf="selector!='view'">
+        <button (click)="cancel()">Cancel</button>
+      </span>
+    </tfoot>
+  </table>
+</div>

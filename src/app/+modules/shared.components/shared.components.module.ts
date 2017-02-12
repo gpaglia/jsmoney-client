@@ -1,22 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+// right-angled
+import { RTModule } from 'right-angled';
+
 import {
-    SidenavComponent
-} from './+components/sidenav/sidenav.component';
+    SidenavComponent,
+    CurrencySelectorComponent
+} from './+components';
 
 console.log('`SharedComponents` bundle loaded');
 
 @NgModule({
   declarations: [
     // Components / Directives/ Pipes
-    SidenavComponent
+    SidenavComponent,
+    CurrencySelectorComponent
   ],
   imports: [
     CommonModule,
+    RTModule
   ],
   exports: [
-    SidenavComponent
+    SidenavComponent,
+    CurrencySelectorComponent
   ]
 })
 export class SharedComponentsModule {

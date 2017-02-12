@@ -34,7 +34,8 @@ import {
 import {
   BackendServiceHelper,
   AuthenticationService,
-  AccountService
+  AccountService,
+  CurrencyService
 } from './_backend-services';
 
 // Get hold of Config service, we need an explicit Injector for this
@@ -47,6 +48,7 @@ let PROVIDERS: any[] = [
   ConfigService,
   AuthenticationService,
   AccountService,
+  CurrencyService,
   AlertService,
   BackendServiceHelper,
   FormBuilder

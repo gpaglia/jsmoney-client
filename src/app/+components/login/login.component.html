@@ -47,8 +47,8 @@
 </div>
 -->
 
-<div class="col-md-6 offset-md-3" style="background-color: greenyellow">
-    <h2>Please log in to JSMoney</h2>
+<div class="col-md-6 offset-md-3 login-container">
+    <h2 class="text-center">Please log in to JSMoney</h2>
     <form [formGroup]="loginForm" #f="ngForm" (ngSubmit)="login()">
       <div class="form-group" [ngClass]="{ 'has-error': false }">
         <label for="username">Username</label>

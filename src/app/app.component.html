@@ -39,10 +39,11 @@
     </a>
   </div>
 </footer>
+
 -->
-<div class="row">
-  <div class="col-12">
-    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+<div class="d-flex flex-column fill-vertical-space">
+  <div class="clearfix px-0 mx-0">
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -50,9 +51,10 @@
         <a class="navbar-brand" href="#">JSMoney</a>
         <div class="collapse navbar-collapse" id="navbarNav">
           <div class="navbar-nav">
-            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./profile']" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./profile']" routerLinkActive="active">Profile <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./datasets']" routerLinkActive="active">Datasets</a>
             <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./accounts']" routerLinkActive="active">Accounts</a>
+            <a class="nav-item nav-link" [hidden]="!userState.loggedIn" [routerLink]="['./home']" routerLinkActive="active">Home</a>
             <a class="nav-item nav-link" [hidden]="userState.loggedIn" [routerLink]="['./login']" routerLinkActive="active">Login</a>
           </div>
           <div class="navbar-nav ml-auto">
@@ -62,26 +64,27 @@
     </nav>
   </div>
 
-  <main  class="col-12" style="background-color: lightgreen">
+
+  <main class="fill-vertical-space">
     <router-outlet></router-outlet>
   </main>
 
-  <div class="col-12" style="background-color: lightslategray">
-      <div class="row">
-        <div class="col">
-          <span>JSMoney by gpaglia</span>
-        </div>
-        <div class="col">
-          <span>...</span>
-        </div>
-        <div class="col">
-          <span *ngIf="userState.loggedIn">Logged In as {{userState.username}} ({{userState.role}})</span>
-          <span *ngIf="!userState.loggedIn">Not Logged In</span>
-        </div>
-
+  <div class="footer-container">
+    <div class="row">
+      <div class="col-4 text-left">
+        <span>JSMoney by gpaglia</span>
       </div>
-      <div class="row" *ngIf="message">
-        <alert [type]="message.type" dismissable="true">{{message.text}}</alert>
-        <button type="button" class="btn btn-primary" (click)="clearMessage()">Dismiss</button>
+      <div class="col-4 text-center">
+        <span>...</span>
       </div>
+      <div class="col-4 text-right">
+        <span *ngIf="userState.loggedIn">Logged In as {{userState.username}} ({{userState.role}})</span>
+        <span *ngIf="!userState.loggedIn">Not Logged In</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="message">
+      <alert [type]="message.type" dismissable="true">{{message.text}}</alert>
+      <button type="button" class="btn btn-primary" (click)="clearMessage()">Dismiss</button>
+    </div>
   </div>
+</div>

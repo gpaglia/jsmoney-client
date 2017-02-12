@@ -210,10 +210,21 @@ export class BackendServiceHelper {
             if (typeof qp === 'string') {
                 url = url + k + '=' + qp;
             } else if (qp instanceof Array) {
-                url = url + k + '=' + qp.join('+');
+                let qpa: string[] = qp as string[];
+                for (let i = 0; i < qpa.length; i++) {
+                    if (i !== 0) {
+                        url = url + '&';
+                    }
+                    url = url + k + '[]=' + qpa[i];
+                }
             } else if (qp instanceof Object) {
                 let first: boolean = true;
                 Object.keys(qp).forEach((subk) => {
+                    if (typeof subk !== 'string'
+                        && typeof subk !== 'number'
+                        && typeof subk !== 'boolean') {
+                            throw 'Invalid query params (subk)';
+                    }
                     if (!first) {
                         url = url + '&';
                     } else {
@@ -283,6 +294,7 @@ function makeErrorHandler(segments: string[]): ErrorHandler {
     };
 }
 
+/*
 function handleError(error: Response | Error | any) {
 
     let errMsg: string;
@@ -297,3 +309,4 @@ function handleError(error: Response | Error | any) {
     }
     return Observable.throw(errMsg);
 }
+*/

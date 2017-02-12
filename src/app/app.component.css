@@ -1,6 +1,9 @@
-html, body{
+html, body {
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 /*
@@ -8,8 +11,35 @@ html, body{
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
+/*
 body {
   padding-top: 50px;
+}
+*/
+app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-size-container {
+  height: 100%;
+  width: 100%;
+}
+
+.footer-container {
+  background-color: lightslategray;
+}
+
+main {
+  height: 100%;
+  background-color: lightgreen;
+}
+
+.fill-vertical-space {
+  display: flex;
+  flex-grow: 1;
 }
 
 /*

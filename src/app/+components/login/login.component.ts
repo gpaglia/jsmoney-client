@@ -14,6 +14,8 @@ import {
 } from 'jsmoney-server-api';
 
 @Component({
+    selector: 'login',
+    styleUrls: ['./login.component.css'],
     templateUrl: './login.component.html'
 })
 

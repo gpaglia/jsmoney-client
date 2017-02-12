@@ -30,6 +30,9 @@ import { RegisterComponent } from './+components/register';
 import { NoContentComponent } from './+components/no-content';
 import { ProfileComponent } from './+components/profile';
 import { XLargeDirective } from './_directives/x-large';
+
+import { SharedComponentsModule } from './+modules/shared.components/shared.components.module';
+
 import {
   AlertModule
 } from 'ng2-bootstrap';
@@ -69,6 +72,7 @@ type StoreType = {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    SharedComponentsModule,
     AlertModule.forRoot(),
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
