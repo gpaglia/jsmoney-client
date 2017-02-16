@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions } from '@angular/http';
-import { BEARER, IUserObject } from 'jsmoney-server-api';
+import {
+  BEARER,
+  IUserObject,
+  IDatasetObject
+} from 'jsmoney-server-api';
+
 import { Subject, Observable } from 'rxjs';
 
-const STORAGE_KEY = 'USER_STATE';
+const USER_KEY = 'USER_STATE';
+const DATASET_KEY = 'DATASET';
 
 export type UserStateType = {
   user: IUserObject,
@@ -16,7 +22,9 @@ export type InternalStateType = {
 
 @Injectable()
 export class AppStateService {
-  private subject = new Subject<IUserObject>();
+  private userSubject = new Subject<IUserObject>();
+  private datasetSubject = new Subject<IDatasetObject>();
+
   private _state: InternalStateType = { };
 
   // constructor() {}
@@ -38,8 +46,8 @@ export class AppStateService {
 
   // User state
   public clear(): void {
-    localStorage.removeItem(STORAGE_KEY);
-    this.subject.next(undefined as IUserObject);
+    localStorage.removeItem(USER_KEY);
+    this.userSubject.next(undefined as IUserObject);
   }
 
   public isLoggedIn(): boolean {
@@ -59,17 +67,31 @@ export class AppStateService {
 
   public setUser(nuser: IUserObject, ntoken: string): void {
     let newState: UserStateType = {user: nuser, token: ntoken};
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
+    localStorage.setItem(USER_KEY, JSON.stringify(newState));
     console.log('User state changing ... ');
-    this.subject.next(nuser);
+    this.userSubject.next(nuser);
   }
 
   public getUserAsync(): Observable<IUserObject> {
-    return this.subject.asObservable();
+    return this.userSubject.asObservable();
   }
 
   public getUserState(): UserStateType {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) as UserStateType ;
+    return JSON.parse(localStorage.getItem(USER_KEY)) as UserStateType ;
+  }
+
+  public getDataset(): IDatasetObject {
+    return JSON.parse(localStorage.getItem(DATASET_KEY)) as IDatasetObject;
+  }
+
+  public getDatasetAsync(): Observable<IDatasetObject> {
+    return this.datasetSubject.asObservable();
+  }
+
+  public setDataset(d: IDatasetObject): void {
+    localStorage.setItem(DATASET_KEY, JSON.stringify(d));
+    console.log('Dataset changing ... ');
+    this.datasetSubject.next(d);
   }
 
   private _clone(object: InternalStateType) {

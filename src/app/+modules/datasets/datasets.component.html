@@ -21,12 +21,20 @@
     </div>
 </md-sidenav-container>
 -->
-<div class="row">
-    <div class="col-sm-4 col-md-3 pt-3">
-        <my-sidenav></my-sidenav>
+<div class="row fill-vertical-space">
+    <div class="col-sm-3 col-md-2 pt-0">
+        <my-sidenav [menuStructure]="dsmenu" [activeItemId]="actId" class="fill-vertical-space"></my-sidenav>
     </div>
-    <div class="col-sm-8 col-md-9 pt-3">
-        <h2>Datasets</h2>
-        <router-outlet></router-outlet>
+    <div class="col-sm-9 col-md-10 pt-0 full-size-container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>Datasets and Accounts</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
     </div>
 </div>

@@ -36,9 +36,11 @@ export class AppComponent implements OnInit, OnDestroy {
   @Input() public name = 'Angular 2 Webpack Starter';
   @Input() public url = 'https://twitter.com/AngularClass';
   @Input() public userState: any = {};
+  @Input() public dataset: any = {};
   @Input() public message: AlertMessage;
 
   private userStateSubscription: Subscription;
+  private datasetStateSubscription: Subscription;
   private alertSubscription: Subscription;
 
   constructor(
@@ -60,6 +62,14 @@ export class AppComponent implements OnInit, OnDestroy {
                       role: user ? Role[user.role] : undefined
                     };
                   });
+    this.datasetStateSubscription = this.appState
+                  .getDatasetAsync()
+                  .subscribe((ds) => {
+                      this.dataset = {
+                        id: ds.id,
+                        name: ds.name
+                      };
+                  });
     this.alertSubscription =
           this.alertService.getMessage().subscribe((message) => {
             this.message = message;
@@ -68,6 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.userStateSubscription.unsubscribe();
+    this.datasetStateSubscription.unsubscribe();
     this.alertSubscription.unsubscribe();
   }
 

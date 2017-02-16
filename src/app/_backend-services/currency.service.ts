@@ -18,8 +18,8 @@ export class CurrencyService {
         private backend: BackendServiceHelper
     ) { }
 
-    public getCurrencies(major?: boolean);
-    public getCurrencies(codes?: string[]);
+    public getCurrencies(major?: boolean): Observable<ICurrencyObject[]>;
+    public getCurrencies(codes?: string[]): Observable<ICurrencyObject[]>;
     public getCurrencies(majorOrCodes?: boolean | string[]): Observable<ICurrencyObject[]> {
         let qryParams: QryParams = undefined;
         if (majorOrCodes != null

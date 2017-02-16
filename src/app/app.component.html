@@ -74,17 +74,15 @@
       <div class="col-4 text-left">
         <span>JSMoney by gpaglia</span>
       </div>
-      <div class="col-4 text-center">
-        <span>...</span>
-      </div>
-      <div class="col-4 text-right">
+      <div class="col-8 text-right">
         <span *ngIf="userState.loggedIn">Logged In as {{userState.username}} ({{userState.role}})</span>
+        <span *ngIf="dataset.id != null"> on dataset {{dataset.name}}</span>
         <span *ngIf="!userState.loggedIn">Not Logged In</span>
       </div>
     </div>
     <div class="row" *ngIf="message">
-      <alert [type]="message.type" dismissable="true">{{message.text}}</alert>
-      <button type="button" class="btn btn-primary" (click)="clearMessage()">Dismiss</button>
+      <alert class="col" [type]="message.type" dismissable="true">{{message.text}}</alert>
+      <button class="col btn btn-primary" (click)="clearMessage()">Dismiss</button>
     </div>
   </div>
 </div>

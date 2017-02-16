@@ -37,8 +37,7 @@ import { ICurrencyObject } from 'jsmoney-server-api';
 })
 export class CurrencySelectorComponent implements OnInit, OnDestroy {
     @Input() public mode: 'single' | 'multiple' | 'view';
-    @Input() public selector: boolean | string[];
-    public currencies: ICurrencyObject[];
+    @Input() public callback: (selected: string | string[]) => void;
 
     constructor(
         private alertService: AlertService,
@@ -47,15 +46,23 @@ export class CurrencySelectorComponent implements OnInit, OnDestroy {
 
     public getCurrencies =
         (request: ListRequest): Observable<ListResponse<ICurrencyObject>> => {
-        return this.currencyService.getCurrencies(true);
+        return this.currencyService
+                        .getCurrencies(true)
+                        .map((carray) => {
+                            return {
+                                items: carray,
+                                totalCount: carray.length,
+                                loadedCount: carray.length
+                            };
+                        });
     }
 
-    public selectCurrency(code: string) {
-        console.log('Currency ' + code + ' selected');
+    public selectCurrency(code: string, status: boolean) {
+        console.log('Currency ' + code + ' status ' + status);
     }
 
     public confirm() {
-        console.log('Confirm');
+        console.log('Confirm ' );
     }
 
     public cancel() {

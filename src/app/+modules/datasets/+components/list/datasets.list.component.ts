@@ -3,8 +3,11 @@ import {
   Component,
   OnInit,
   Input,
-  Inject
+  Inject,
+  NgZone
 } from '@angular/core';
+
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -55,13 +58,17 @@ const fakeSatasets: IDatasetObject[] = [
 ];
 
 @Component({
+    selector: 'dataset-list',
     templateUrl: './datasets.list.component.html',
 })
 export class DatasetsListComponent implements OnInit {
 
     // @Input() datasets: IDatasetObject[];
     constructor(
-        private accountService: AccountService
+        private accountService: AccountService,
+        private appStateService: AppStateService,
+        private router: Router,
+        private zone: NgZone
     ) { }
 
     public ngOnInit() {
@@ -78,23 +85,6 @@ export class DatasetsListComponent implements OnInit {
     public getDatasets =
             (request: ListRequest): Observable<ListResponse<IDatasetObject>> => {
         console.log('Getting datasets from backend... ');
-        try {
-            this.accountService.test();
-        } catch (error) {
-            console.log('ERROR = ' + JSON.stringify(error, null, 4));
-        }
-        if (!this.accountService) {
-            console.log('Account service is null in getDatasets() !!!');
-        }
-
-/*
-        return Observable.of({
-            items: fake_datasets,
-            totalCount: fake_datasets.length,
-            loadedCount: fake_datasets.length
-        } as ListResponse<IDatasetObject>);
-
-*/
 
         return this.accountService
                 .getDatasets()
@@ -109,13 +99,17 @@ export class DatasetsListComponent implements OnInit {
 
     public selectDataset(d: IDatasetObject): void {
         console.log('Selected dataset: ' + JSON.stringify(d, null, 4));
+        this.appStateService.setDataset(d);
     }
 
     public editDataset(d: IDatasetObject): void {
         console.log('Edit dataset: ' + JSON.stringify(d, null, 4));
+        this.zone.run(() => {
+            this.router.navigate(['datasets/detail/edit/' + d.id]);
+        });
     }
 
-    public renameDataset(d: IDatasetObject): void {
+    public changeDataset(d: IDatasetObject): void {
         console.log('Rename dataset: ' + JSON.stringify(d, null, 4));
     }
 }

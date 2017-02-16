@@ -1,0 +1,37 @@
+<div class="row vertical-scrolling-container">
+    <nav class="col-12 hidden-xs-down bg-faded sidebar">
+        <h3 class="text-center">{{menuStructure.title}}</h3>
+        <ul class="nav nav-pills flex-column">
+            <li *ngFor="let menuitem of menuStructure.items; let i=index" class="nav-item">
+                <a class="nav-link" [ngClass]="{active: menuitem.id===activeItemId}" (click)="doAction(menuStructure, menuitem)">{{menuitem.title}}</a>
+            </li>
+        </ul>
+<!--
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Nav item</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Nav item again</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">One more nav</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Another nav item</a>
+            </li>
+        </ul>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Nav item again</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">One more nav</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Another nav item</a>
+            </li>
+        </ul>
+    -->
+    </nav>
+</div>

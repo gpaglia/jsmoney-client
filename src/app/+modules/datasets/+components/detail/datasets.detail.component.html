@@ -1,0 +1,48 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col justify-content-center">
+      <h2 *ngIf="mode==='new'" class="text-center">New Dataset</h2>
+      <h2 *ngIf="mode==='edit'" class="text-center">Change Dataset</h2>
+      <h2 *ngIf="mode==='view'" class="text-center">View Dataset Details</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <form class="col col-9-sm justify-content-center" [formGroup]="datasetForm" #f="ngForm">
+      <div class="row form-group">
+        <label class="col-2 text-right" for="name">Name</label>
+        <input type="text" class="col-6 form-control" formControlName="name" placeholder="Name" />
+      </div>
+      <div class="row form-group">
+        <label class="col-2 text-right" for="description">Description</label>
+        <input type="text" class="col-6 form-control" formControlName="description" placeholder="Description" />
+      </div>
+      <div class="row form-group">
+        <label class="col-2 text-right" for="currency">Currency</label>
+        <ng-select class="col-6 form-control" formControlName="currency"
+            [allowClear]="true"
+            [items]="clist"
+            [disabled]="mode!=='new'"
+            placeholder="Primary currency"></ng-select>
+        <!--
+        <input type="text" class="col-6 form-control" formControlName="currency" placeholder="Currency" />
+        -->
+      </div>
+      <div class="row form-group">
+        <label class="col-2 text-right" for="additionalCurrencies">Add. Currencies</label>
+        <input type="text" class="col-6 form-control" formControlName="additionalCurrencies" placeholder="Add. Currencies" />
+        <button *ngIf="mode==='edit'" class="btn" (click)="addCurrencies()">Add</button>
+      </div>
+      <div *ngIf="mode==='new'" class="row form-group justify-content-center">
+        <button class="btn mx-2" (click)="newDataset()">Create</button>
+        <button class="btn mx-2" (click)="cancel()">Cancel</button>
+      </div>
+      <div *ngIf="mode==='edit'" class="row form-group justify-content-center">
+        <button class="btn mx-2" (click)="cancel()">Cancel</button>
+      </div>
+      <div *ngIf="mode==='view'" class="row form-group justify-content-center">
+        <button class="btn mx-2" (click)="cancel()">Close</button>
+      </div>
+    </form>
+  </div>
+</div>

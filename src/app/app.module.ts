@@ -31,7 +31,7 @@ import { NoContentComponent } from './+components/no-content';
 import { ProfileComponent } from './+components/profile';
 import { XLargeDirective } from './_directives/x-large';
 
-import { SharedComponentsModule } from './+modules/shared.components/shared.components.module';
+import { SharedComponentsModule } from './+modules/shared-components/shared.components.module';
 
 import {
   AlertModule

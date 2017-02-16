@@ -4,7 +4,7 @@
       <tr>
         <th>Code</th>
         <th>Description</th>
-        <th *ngIf="(selector==='single'||selector==='multiple')">Select</th>
+        <th *ngIf="(mode === 'single' || mode === 'multiple')">Select</th>
       </tr>
     </thead>
     <tbody>
@@ -12,18 +12,18 @@
         <td>{{currency.code}}</td>
         <td>{{currency.description}}</td>
         <td>
-            <div *ngIf="selector=='single'">
-              <input type="button" (onclick)="selectCurrency(currency.code)" value="Select"> 
+            <div *ngIf="mode=='single'">
+              <input type="button" (click)="selectCurrency(currency.code, true)" value="Select"> 
             </div>
-            <div *ngIf="selector=='multiple'">
-              <input type="checkbox" (onclick)="selectCurrency(currency.code)" value="Select"> 
+            <div *ngIf="mode=='multiple'">
+              <input type="checkbox" #checkbox (click)="selectCurrency(currency.code, checkbox.value)" value="Select"> 
             </div>
         </td>
       </tr>
     </tbody>
-    <tfoot *ngIf="(selector=='view'||selector=='multiple')">
+    <tfoot *ngIf="(mode === 'view' || mode === 'multiple')">
       <button (click)="confirm()">OK</button>
-      <span *ngIf="selector!='view'">
+      <span *ngIf="mode!='view'">
         <button (click)="cancel()">Cancel</button>
       </span>
     </tfoot>

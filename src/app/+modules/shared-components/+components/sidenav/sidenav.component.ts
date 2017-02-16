@@ -15,15 +15,17 @@ import {
 } from '../../../../_app-services';
 
 export type SideMenuItem = {
-    title: string,
-    text: string,
-    action: (item: SideMenuItem) => void;
+    id: string;
+    title: string;
+    text: string;
 };
 
 export type SideMenu = {
-    title: string,
-    text: string,
+    id: string;
+    title: string;
+    text: string;
     items: SideMenuItem[];
+    action: (menu: SideMenu, item: SideMenuItem) => void;
 };
 
 /*
@@ -40,13 +42,13 @@ export type SideMenu = {
 })
 export class SidenavComponent {
     @Input() public menuStructure: SideMenu;
+    @Input() public activeItemId: string;
 
-    public onclick(menuItem: SideMenuItem) {
+    public doAction(menu: SideMenu, item: SideMenuItem) {
         try {
-            menuItem.action(menuItem);
+            menu.action(menu, item);
         } catch (error) {
             console.log('Error in sidemenu ' + JSON.stringify(error));
         }
     }
-
 }

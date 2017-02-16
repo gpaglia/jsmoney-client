@@ -23,35 +23,26 @@ app {
   flex-direction: column;
 }
 
-.full-size-container {
-  height: 100%;
-  width: 100%;
-}
-
 .footer-container {
-  background-color: lightslategray;
+  /* background-color: lightslategray; */
 }
 
 main {
   height: 100%;
-  background-color: lightgreen;
+  /* background-color: lightgreen; */
 }
 
-.fill-vertical-space {
-  display: flex;
-  flex-grow: 1;
-}
 
 /*
  * Typography
  */
-
+/*
 h1 {
   margin-bottom: 20px;
   padding-bottom: 9px;
   border-bottom: 1px solid #eee;
 }
-
+*/
  /* Placeholders */
 .placeholders {
   padding-bottom: 3rem;
