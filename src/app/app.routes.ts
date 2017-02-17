@@ -17,7 +17,6 @@ export const ROUTES: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'datasets', loadChildren: './+modules/datasets#DatasetsModule'},
-  { path: 'accounts', loadChildren: './+modules/accounts#AccountsModule'},
+  { path: 'dsacc', loadChildren: './+modules/datasets#DatasetsModule'},
   { path: '**',    component: NoContentComponent },
 ];

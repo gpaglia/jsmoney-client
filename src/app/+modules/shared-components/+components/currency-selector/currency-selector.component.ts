@@ -31,9 +31,9 @@ import { ICurrencyObject } from 'jsmoney-server-api';
 @Component({
     selector: 'currency-selector',
     styleUrls: [
-        './currency.selector.component.css'
+        './currency-selector.component.css'
     ],
-    templateUrl: './currency.selector.component.html'
+    templateUrl: './currency-selector.component.html'
 })
 export class CurrencySelectorComponent implements OnInit, OnDestroy {
     @Input() public mode: 'single' | 'multiple' | 'view';

@@ -59,7 +59,7 @@ const fakeSatasets: IDatasetObject[] = [
 
 @Component({
     selector: 'dataset-list',
-    templateUrl: './datasets.list.component.html',
+    templateUrl: './datasets-list.component.html',
 })
 export class DatasetsListComponent implements OnInit {
 

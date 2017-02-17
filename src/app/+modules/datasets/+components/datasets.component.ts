@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import {
   SideMenu,
   SideMenuItem
-} from '../shared-components/+components/sidenav/sidenav.component';
+} from '../../shared-components/+components/sidenav/sidenav.component';
 
 console.log('`Datasets` component loaded asynchronously');
 
@@ -18,7 +18,7 @@ const menu: SideMenu = {
   id: 'datasets',
   title: 'Datasets & Accounts',
   text: '...',
-  action: (menux: SideMenu, itemx: SideMenuItem) => {console.log('Action ' + itemx.id); },
+  action: (menux: SideMenu, itemx: SideMenuItem) => { console.log('Action ' + itemx.id); },
   items: [
     {
       id: 'new-dataset',
@@ -27,7 +27,17 @@ const menu: SideMenu = {
     },
     {
       id: 'list-datasets',
-      title: 'List Dataset',
+      title: 'List Datasets',
+      text: '...',
+    },
+    {
+      id: 'new-account',
+      title: 'New Account',
+      text: '...',
+    },
+    {
+      id: 'list-accounts',
+      title: 'List Accounts',
       text: '...',
     }
   ]
@@ -45,7 +55,7 @@ export class DatasetsComponent implements OnInit {
   constructor(
     private router: Router,
     private zone: NgZone
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.actId = undefined;
@@ -53,13 +63,13 @@ export class DatasetsComponent implements OnInit {
       console.log('Action selected: ' + itemx.id);
       this.actId = itemx.id;
       if (this.actId === 'new-dataset') {
-        this.zone.run(() => {
-          this.router.navigate(['datasets/detail/new/?']);
-        });
+        this.router.navigate(['dsacc/dsdetail/new/?']);
       } else if (this.actId === 'list-datasets') {
-        this.zone.run(() => {
-          this.router.navigate(['datasets/list']);
-        });
+        this.router.navigate(['dsacc/dslist']);
+      } else if (this.actId === 'new-account') {
+        this.router.navigate(['dsacc/accdetail/new/?']);
+      } else if (this.actId === 'list-accounts') {
+        this.router.navigate(['dsacc/acclist']);
       }
     };
     console.log('hello `Datasets` component');

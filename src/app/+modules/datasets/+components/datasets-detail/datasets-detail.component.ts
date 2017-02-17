@@ -42,7 +42,7 @@ type CurrencyList = Array<{
 
 @Component({
     selector: 'dataset-detail',
-    templateUrl: './datasets.detail.component.html',
+    templateUrl: './datasets-detail.component.html',
 })
 export class DatasetsDetailComponent implements OnInit, OnDestroy {
 
@@ -123,11 +123,15 @@ export class DatasetsDetailComponent implements OnInit, OnDestroy {
             version: null,
             name: this.datasetForm.controls['name'].value,
             description: this.datasetForm.controls['description'].value,
-            currency: this.datasetForm.controls['currency'].value,
+            currency: this.datasetForm.controls['currency'].value[0].id,
             additionalCurrencies: []
             // additionalCurrencies: JSON.parse(
             // '[' + this.datasetForm.controls['additionalCurrencies'].value + ']')
         };
+
+        console.log('Currency is ' + JSON.stringify(this.datasetForm.controls['currency'].value));
+        console.log('Currency type is ' + typeof(this.datasetForm.controls['currency'].value));
+        console.log('New dataset is ' + JSON.stringify(newDataset));
         this.accountService
             .createDataset(newDataset)
             .subscribe(

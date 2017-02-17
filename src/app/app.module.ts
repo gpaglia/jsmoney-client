@@ -19,7 +19,7 @@ import {
  * Platform and Environment providers/directives/pipes
  */
 import { ENV_PROVIDERS, APP_RESOLVER_PROVIDERS } from './environment';
-import { AppStateService, InternalStateType } from './_app-services/app.state.service';
+import { AppStateService, InternalStateType } from './_app-services/app-state.service';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
@@ -31,7 +31,8 @@ import { NoContentComponent } from './+components/no-content';
 import { ProfileComponent } from './+components/profile';
 import { XLargeDirective } from './_directives/x-large';
 
-import { SharedComponentsModule } from './+modules/shared-components/shared.components.module';
+import { SharedComponentsModule } from
+            './+modules/shared-components/shared-components.module';
 
 import {
   AlertModule

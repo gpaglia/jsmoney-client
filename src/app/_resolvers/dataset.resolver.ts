@@ -24,6 +24,7 @@ export class DatasetResolver implements Resolve<IDatasetObject> {
   public resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<IDatasetObject> {
+
     let id: string = route.params['id'];
     let mode: string = route.params['mode'];
 
@@ -38,6 +39,7 @@ export class DatasetResolver implements Resolve<IDatasetObject> {
                       return ds;
                     } else {
                       this.router.navigate(['/datasets']);
+                      return Observable.of(undefined);
                     }
                   })
                   .first();

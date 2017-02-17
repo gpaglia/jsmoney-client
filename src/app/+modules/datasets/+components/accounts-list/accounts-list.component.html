@@ -1,0 +1,26 @@
+
+   <table class="table table-striped" [rtList]="getAccounts" #accounts="rtList">
+        <thead fxLayout="column">
+            <tr >
+                <th class="text-left">Name</th>
+                <th class="text-left">Description</th>
+                <th class="text-left">Currency</th>
+                <th class="text-left">Type</th>
+                <th class="text-right">Balance</th>
+                <th class="text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let account of accounts.items">
+                <td class="text-left">{{ account.name }}</td>
+                <td class="text-left">{{ account.description }}</td>
+                <td class="text-left">{{ account.currency}}</td>
+                <td class="text-left">{{ account.accType}}</td>
+                <td class="text-left">{{ account.balance}}</td>
+                <td class="justify-content-start">
+                    <button (click)="selectAccount(account)">Open</button>
+                    <button (click)="editAccount(account)">Edit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>

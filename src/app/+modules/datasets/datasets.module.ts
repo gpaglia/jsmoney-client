@@ -2,9 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DatasetsComponent } from './datasets.component';
-import { DatasetsListComponent } from './+components/list/datasets.list.component';
-import { DatasetsDetailComponent } from './+components/detail/datasets.detail.component';
+import {
+  DatasetsComponent,
+  DatasetsListComponent,
+  DatasetsDetailComponent,
+  AccountsListComponent,
+  AccountsDetailComponent
+} from './+components';
 
 import { DatasetsRoutingModule } from './datasets.routing.module';
 
@@ -16,7 +20,7 @@ import { RTModule } from 'right-angled';
 import { SelectModule } from 'ng2-select';
 
 // Shared components
-import { SharedComponentsModule } from '../shared-components/shared.components.module';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 console.log('`Datasets` bundle loaded asynchronously');
 
@@ -25,7 +29,9 @@ console.log('`Datasets` bundle loaded asynchronously');
     // Components / Directives/ Pipes
     DatasetsComponent,
     DatasetsListComponent,
-    DatasetsDetailComponent
+    DatasetsDetailComponent,
+    AccountsListComponent,
+    AccountsDetailComponent
   ],
   imports: [
     CommonModule,

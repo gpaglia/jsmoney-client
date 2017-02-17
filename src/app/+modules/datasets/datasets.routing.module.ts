@@ -1,24 +1,40 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DatasetsComponent } from './datasets.component';
-import { DatasetsListComponent } from './+components/list/datasets.list.component';
-import { DatasetsDetailComponent } from './+components/detail/datasets.detail.component';
+import {
+  DatasetsComponent,
+  DatasetsListComponent,
+  DatasetsDetailComponent,
+  AccountsListComponent,
+  AccountsDetailComponent
+} from './+components';
 
-import { DatasetResolver } from '../../_resolvers';
+import {
+  DatasetResolver,
+  AccountResolver
+} from '../../_resolvers';
 
 export const routes = [
   { path: '', children: [
     { path: '', component: DatasetsComponent, children: [
-      { path: 'list', component: DatasetsListComponent },
+      { path: 'dslist', component: DatasetsListComponent },
       {
-        path: 'detail/:mode/:id',
+        path: 'dsdetail/:mode/:id',
         component: DatasetsDetailComponent,
         resolve: {
           dataset: DatasetResolver
         }
       },
+      { path: 'acclist', component: AccountsListComponent },
+      {
+        path: 'accdetail/:mode/:id',
+        component: AccountsDetailComponent,
+        resolve: {
+          account: AccountResolver
+        }
+      },
     ] },
+
   ]},
 ];
 
@@ -30,7 +46,8 @@ export const routes = [
     RouterModule
   ],
   providers: [
-    DatasetResolver
+    DatasetResolver,
+    AccountResolver
   ]
 })
 export class DatasetsRoutingModule { }

@@ -46,17 +46,17 @@ export class AccountService {
 
     public getAccounts(datasetId: string): Observable<IAccountObject[]> {
         return this.backend.get(
-            ['datasets', ':id', 'accounts'],
-            {id: datasetId},
+            ['datasets', ':did', 'accounts'],
+            {did: datasetId},
             null,
             null,
             true);
     }
 
-    public getAccountById(id: string): Observable<IAccountObject> {
+    public getAccountById(datasetId: string, accountId: string): Observable<IAccountObject> {
         return this.backend.get(
-            ['accounts', ':id'],
-            {id},
+            ['datasets', ':did', 'accounts', ':accid'],
+            {did: datasetId, accid: accountId},
             null,
             null,
             true);
@@ -64,8 +64,8 @@ export class AccountService {
 
      public createAccount(datasetId: string, account: IAccountObject): Observable<IAccountObject> {
         return this.backend.postEmbed(
-            ['datasets', ':id', 'accounts'],
-            {id: datasetId},
+            ['datasets', ':did', 'accounts'],
+            {did: datasetId},
             null,
             account,
             null,

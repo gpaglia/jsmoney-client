@@ -58,8 +58,6 @@ let PROVIDERS: any[] = [
 // an array of services to resolve routes with data
 let RESOLVER_PROVIDERS = [
   DataResolver,
-  MockBackend,
-  BaseRequestOptions,
   // other common data resolvers
 ];
 
@@ -79,6 +77,8 @@ if ('production' === ENV) {
 
   PROVIDERS = [
     ...PROVIDERS,
+    MockBackend,
+    BaseRequestOptions,
     // Always use std Uttp service in production
     { provide: BackendHttp, useExisting: Http },
     // custom providers in production
